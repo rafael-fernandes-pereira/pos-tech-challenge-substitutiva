@@ -56,4 +56,22 @@ class ResidentMapperTest {
         assertEquals(residentJpaEntity.getApartment(), result.getApartment());
     }
 
+    @Test
+    void testToUpdateEntity() {
+        // Arrange
+        Resident.ResidentId residentId = new Resident.ResidentId(UUID.randomUUID().toString());
+        Resident resident = new Resident("John Smith", "827.225.370-44", "+55 12 98765-4321", 103);
+
+        // Act
+        ResidentJpaEntity result = residentMapper.toUpdateEntity(residentId, resident);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(residentId.id(), result.getId().toString());
+        assertEquals(resident.getName(), result.getName());
+        assertEquals(resident.getDocument(), result.getDocument());
+        assertEquals(resident.getCellphone(), result.getCellphone());
+        assertEquals(resident.getApartment(), result.getApartment());
+    }
+
 }

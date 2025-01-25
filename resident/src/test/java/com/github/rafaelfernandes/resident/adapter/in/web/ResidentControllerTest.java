@@ -241,5 +241,47 @@ class ResidentControllerTest {
         verify(residentUseCase).delete(residentId);
     }
 
+    @Test
+    void testUpdateByIdSuccess() throws Exception {
+        // Arrange
+        String residentId = "550e8400-e29b-41d4-a716-446655440000";
+        ResidentRequest request = new ResidentRequest("John Doe", "12345678909", "+55 12 98765-4321", 101);
+        Resident resident = new Resident("John Doe", "12345678909", "+55 12 98765-4321", 101);
+
+        when(residentUseCase.findById(residentId)).thenReturn(resident);
+        doNothing().when(residentUseCase).update(any(Resident.ResidentId.class), any(Resident.class));
+
+        // Act & Assert
+        mockMvc.perform(put("/api/resident/{id}", residentId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().string("Resident updated successfully"));
+
+        verify(residentUseCase).findById(residentId);
+        verify(residentUseCase).update(any(Resident.ResidentId.class), any(Resident.class));
+    }
+
+    @Test
+    void testUpdateByIdNotFound() throws Exception {
+        // Arrange
+        String residentId = "550e8400-e29b-41d4-a716-446655440000";
+        ResidentRequest request = new ResidentRequest("John Doe", "12345678909", "+55 12 98765-4321", 101);
+
+        when(residentUseCase.findById(residentId)).thenThrow(new ResidentNotFoundException());
+
+        // Act & Assert
+        mockMvc.perform(put("/api/resident/{id}", residentId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.message").value("Resident not found"))
+                .andExpect(jsonPath("$.status").value(404));
+
+        verify(residentUseCase).findById(residentId);
+    }
+
 
 }

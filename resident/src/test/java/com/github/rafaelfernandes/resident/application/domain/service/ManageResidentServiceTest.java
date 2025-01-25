@@ -146,4 +146,15 @@ class ManageResidentServiceTest {
         verify(manageResidentPort).findById(resident.getResidentId().id());
         verify(manageResidentPort, never()).delete(any(Resident.class));
     }
+
+    @Test
+    void testUpdateResidentSuccessfully() {
+        Resident.ResidentId residentId = resident.getResidentId();
+
+        doNothing().when(manageResidentPort).update(residentId, resident);
+
+        manageResidentService.update(residentId, resident);
+
+        verify(manageResidentPort).update(residentId, resident);
+    }
 }

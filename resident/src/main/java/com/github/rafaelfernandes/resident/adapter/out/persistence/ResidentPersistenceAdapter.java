@@ -60,4 +60,11 @@ public class ResidentPersistenceAdapter implements ManageResidentPort {
 
         repository.delete(entityToDelete);
     }
+
+    @Override
+    public void update(Resident.ResidentId id, Resident resident) {
+        var entityToUpdate = mapper.toUpdateEntity(id, resident);
+
+        repository.save(entityToUpdate);
+    }
 }

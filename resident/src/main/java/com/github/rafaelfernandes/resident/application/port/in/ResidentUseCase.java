@@ -14,7 +14,7 @@ public interface ResidentUseCase {
 
     void delete(String residentId);
 
-    Boolean update(Resident resident);
+    void update(Resident.ResidentId id, Resident resident);
 
     Resident findById(String residentId);
 

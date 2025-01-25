@@ -202,5 +202,46 @@ public class ResidentController {
         return ResponseEntity.status(HttpStatus.OK).body("Resident deleted successfully");
     }
 
+    @Operation(summary = "Update Resident by ID")
+    @ApiResponses(value = {
+            @ApiResponse(description = "Success", responseCode = "200", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = ResidentResponse.class)
+            )),
+            @ApiResponse(description = "Business and Internal problems", responseCode = "500", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = ResponseError.class),
+                    examples = @io.swagger.v3.oas.annotations.media.ExampleObject(value = "{\"message\":\"Business and Internal problems\",\"status\":500}")
+            )),
+            @ApiResponse(description = "Not found", responseCode = "404", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = ResponseError.class)
+            )),
+            @ApiResponse(description = "Authenticate error", responseCode = "401", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = ResponseError.class),
+                    examples = @io.swagger.v3.oas.annotations.media.ExampleObject(value = "{\"message\":\"Authenticate error\",\"status\":401}")
+            ))
+    })
+    @PutMapping(
+            path = "/{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    ResponseEntity<String> updateById(@PathVariable String id, @RequestBody ResidentRequest request) {
+
+        var resident = useCase.findById(id);
+
+        var residentModel = new Resident(
+                request.name(),
+                request.document(),
+                request.cellphone(),
+                request.apartment()
+        );
+
+        useCase.update(resident.getResidentId(), residentModel);
+
+        return ResponseEntity.status(HttpStatus.OK).body("Resident updated successfully");
+    }
+
 
 }

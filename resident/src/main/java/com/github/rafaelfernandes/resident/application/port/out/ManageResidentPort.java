@@ -20,4 +20,6 @@ public interface ManageResidentPort {
 
     void delete(Resident resident);
 
+    void update(Resident.ResidentId id, Resident resident);
+
 }

@@ -191,4 +191,15 @@ class ResidentPersistenceAdapterTest {
         verify(mapper).toCreateEntity(resident);
         verify(repository).delete(entity);
     }
+
+    @Test
+    void testUpdateResident() {
+        Resident.ResidentId residentId = new Resident.ResidentId(UUID.randomUUID().toString());
+        when(mapper.toUpdateEntity(residentId, resident)).thenReturn(entity);
+
+        residentPersistenceAdapter.update(residentId, resident);
+
+        verify(mapper).toUpdateEntity(residentId, resident);
+        verify(repository).save(entity);
+    }
 }

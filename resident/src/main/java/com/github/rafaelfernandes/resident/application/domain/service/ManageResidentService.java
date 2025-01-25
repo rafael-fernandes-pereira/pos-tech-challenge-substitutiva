@@ -40,13 +40,13 @@ public class ManageResidentService implements ResidentUseCase{
         var resident = findById(residentId);
 
         manageResidentPort.delete(resident);
-
-
     }
 
     @Override
-    public Boolean update(Resident resident) {
-        return null;
+    public void update(Resident.ResidentId id, Resident resident) {
+
+        manageResidentPort.update(id, resident);
+
     }
 
     @Override
