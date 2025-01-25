@@ -19,7 +19,7 @@ public class ManageResidentService implements ResidentUseCase{
     @Override
     public Resident.ResidentId create(Resident resident) {
 
-        var existsByApartment = manageResidentPort.existsByApartment(resident.getApartment());
+        boolean existsByApartment = manageResidentPort.existsByApartment(resident.getApartment());
 
         if (existsByApartment) {
             throw new ResidentApartmentExistsException(resident.getApartment());

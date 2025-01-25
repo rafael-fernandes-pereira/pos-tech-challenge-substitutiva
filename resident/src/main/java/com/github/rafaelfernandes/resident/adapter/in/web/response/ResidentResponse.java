@@ -24,7 +24,7 @@ public record ResidentResponse(
 
     public static ResidentResponse fromDomain(com.github.rafaelfernandes.resident.application.domain.model.Resident resident) {
         return new ResidentResponse(
-                resident.getResidentId().id().toString(),
+                resident.getResidentId().id(),
                 resident.getName(),
                 resident.getDocument(),
                 resident.getCellphone(),

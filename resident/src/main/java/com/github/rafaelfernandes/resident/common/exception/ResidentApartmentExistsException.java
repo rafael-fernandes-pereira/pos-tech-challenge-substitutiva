@@ -14,7 +14,5 @@ public class ResidentApartmentExistsException extends RuntimeException {
         return STATUS;
     }
 
-    public String getMessage() {
-        return super.getMessage();
-    }
+
 }
