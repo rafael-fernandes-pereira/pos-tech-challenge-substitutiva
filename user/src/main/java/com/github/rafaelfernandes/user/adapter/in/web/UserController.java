@@ -1,10 +1,9 @@
-package com.github.rafaelfernandes.user.adapter.in;
+package com.github.rafaelfernandes.user.adapter.in.web;
 
-import com.github.rafaelfernandes.user.adapter.in.request.UserRequest;
-import com.github.rafaelfernandes.user.adapter.in.response.ResponseError;
-import com.github.rafaelfernandes.user.adapter.in.response.UserCreatedResponse;
+import com.github.rafaelfernandes.user.adapter.in.web.request.UserRequest;
+import com.github.rafaelfernandes.user.adapter.in.web.response.ResponseError;
+import com.github.rafaelfernandes.user.adapter.in.web.response.UserCreatedResponse;
 import com.github.rafaelfernandes.user.application.domain.model.Resident;
-import com.github.rafaelfernandes.user.application.domain.model.User;
 import com.github.rafaelfernandes.user.application.port.in.UserUseCase;
 import com.github.rafaelfernandes.user.common.annotations.WebAdapter;
 import io.swagger.v3.oas.annotations.Operation;

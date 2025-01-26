@@ -1,6 +1,6 @@
-package com.github.rafaelfernandes.user.adapter.in;
+package com.github.rafaelfernandes.user.adapter.in.web;
 
-import com.github.rafaelfernandes.user.adapter.in.response.ResponseError;
+import com.github.rafaelfernandes.user.adapter.in.web.response.ResponseError;
 import com.github.rafaelfernandes.user.common.exceptions.ResidentApartmentExistsException;
 import com.github.rafaelfernandes.user.common.exceptions.ResidentCellphoneExistsException;
 import jakarta.validation.ValidationException;
