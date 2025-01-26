@@ -157,4 +157,18 @@ class ManageResidentServiceTest {
 
         verify(manageResidentPort).update(residentId, resident);
     }
+
+    @Test
+    void testFindByCellphoneSuccessfully() {
+        List<Resident> residents = List.of(resident1, resident2);
+        when(manageResidentPort.findByCellphone(resident1.getCellphone())).thenReturn(residents);
+
+        List<Resident> result = manageResidentService.findByCellphone(resident1.getCellphone());
+
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        assertEquals(resident1, result.get(0));
+        assertEquals(resident2, result.get(1));
+        verify(manageResidentPort).findByCellphone(resident1.getCellphone());
+    }
 }

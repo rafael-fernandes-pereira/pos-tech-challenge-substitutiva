@@ -283,5 +283,43 @@ class ResidentControllerTest {
         verify(residentUseCase).findById(residentId);
     }
 
+    @Test
+    void testGetByCellphoneSuccess() throws Exception {
+        // Arrange
+        String cellphone = "+55 12 98765-4321";
+        Resident resident1 = new Resident("John Doe", "12345678909", cellphone, 101);
+        Resident resident2 = new Resident("Jane Doe", "98765432100", cellphone, 102);
+        List<Resident> residents = List.of(resident1, resident2);
+
+        when(residentUseCase.findByCellphone(cellphone)).thenReturn(residents);
+
+        // Act & Assert
+        mockMvc.perform(get("/api/resident/cellphone/{cellphone}", cellphone)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[0].name").value("John Doe"))
+                .andExpect(jsonPath("$[1].name").value("Jane Doe"));
+
+        verify(residentUseCase).findByCellphone(cellphone);
+    }
+
+    @Test
+    void testGetByCellphoneNotFound() throws Exception {
+        // Arrange
+        String cellphone = "+55 12 98765-4321";
+        when(residentUseCase.findByCellphone(cellphone)).thenThrow(new ResidentNotFoundException());
+
+        // Act & Assert
+        mockMvc.perform(get("/api/resident/cellphone/{cellphone}", cellphone)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.message").value("Resident not found"))
+                .andExpect(jsonPath("$.status").value(404));
+
+        verify(residentUseCase).findByCellphone(cellphone);
+    }
+
 
 }

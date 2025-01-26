@@ -7,8 +7,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @PersistenceAdapter
 @RequiredArgsConstructor
@@ -66,5 +68,18 @@ public class ResidentPersistenceAdapter implements ManageResidentPort {
         var entityToUpdate = mapper.toUpdateEntity(id, resident);
 
         repository.save(entityToUpdate);
+    }
+
+    @Override
+    public List<Resident> findByCellphone(String cellphone) {
+
+        var list = repository.findByCellphone(cellphone);
+
+        return list.map(
+                residentJpaEntities -> residentJpaEntities.stream()
+                        .map(mapper::toDomain)
+                        .collect(Collectors.toList())
+                ).orElseGet(List::of);
+
     }
 }

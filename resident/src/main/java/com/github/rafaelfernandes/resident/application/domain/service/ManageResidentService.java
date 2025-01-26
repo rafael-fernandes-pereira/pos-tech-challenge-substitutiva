@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 @UseCase
 @RequiredArgsConstructor
 public class ManageResidentService implements ResidentUseCase{
@@ -57,5 +59,10 @@ public class ManageResidentService implements ResidentUseCase{
     @Override
     public Resident findByApartment(Integer apartment) {
         return manageResidentPort.findByApartment(apartment).orElseThrow(ResidentNotFoundException::new);
+    }
+
+    @Override
+    public List<Resident> findByCellphone(String cellphone) {
+        return manageResidentPort.findByCellphone(cellphone);
     }
 }

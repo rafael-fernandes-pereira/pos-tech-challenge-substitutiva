@@ -23,6 +23,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @WebAdapter
@@ -239,6 +240,41 @@ public class ResidentController {
         useCase.update(resident.getResidentId(), residentModel);
 
         return ResponseEntity.status(HttpStatus.OK).body("Resident updated successfully");
+    }
+
+
+    @Operation(summary = "Find Resident by Cellphone")
+    @ApiResponses(value = {
+            @ApiResponse(description = "Success", responseCode = "200", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = Resident.class)
+            )),
+            @ApiResponse(description = "Business and Internal problems", responseCode = "500", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = ResponseError.class),
+                    examples = @io.swagger.v3.oas.annotations.media.ExampleObject(value = "{\"message\":\"Business and Internal problems\",\"status\":500}")
+            )),
+            @ApiResponse(description = "Not found", responseCode = "404", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = ResponseError.class)
+            )),
+            @ApiResponse(description = "Authenticate error", responseCode = "401", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = ResponseError.class),
+                    examples = @io.swagger.v3.oas.annotations.media.ExampleObject(value = "{\"message\":\"Authenticate error\",\"status\":401}")
+            ))
+    })
+    @GetMapping(
+            path = "/cellphone/{cellphone}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    ResponseEntity<List<ResidentResponse>> getByCellphone(@Parameter @PathVariable String cellphone) {
+
+        var residents = useCase.findByCellphone(cellphone);
+
+        var response = residents.stream().map(ResidentResponse::fromDomain).toList();
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 

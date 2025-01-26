@@ -202,4 +202,36 @@ class ResidentPersistenceAdapterTest {
         verify(mapper).toUpdateEntity(residentId, resident);
         verify(repository).save(entity);
     }
+
+    @Test
+    void testFindByCellphone() {
+        String cellphone = "+55 12 98765-4321";
+        List<ResidentJpaEntity> entities = List.of(entity1, entity2);
+        when(repository.findByCellphone(cellphone)).thenReturn(Optional.of(entities));
+        when(mapper.toDomain(entity1)).thenReturn(resident1);
+        when(mapper.toDomain(entity2)).thenReturn(resident2);
+
+        List<Resident> result = residentPersistenceAdapter.findByCellphone(cellphone);
+
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        assertEquals(resident1, result.get(0));
+        assertEquals(resident2, result.get(1));
+        verify(repository).findByCellphone(cellphone);
+        verify(mapper).toDomain(entity1);
+        verify(mapper).toDomain(entity2);
+    }
+
+    @Test
+    void testFindByCellphoneNotFound() {
+        String cellphone = "+55 12 98765-4321";
+        when(repository.findByCellphone(cellphone)).thenReturn(Optional.empty());
+
+        List<Resident> result = residentPersistenceAdapter.findByCellphone(cellphone);
+
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+        verify(repository).findByCellphone(cellphone);
+        verify(mapper, never()).toDomain(any());
+    }
 }

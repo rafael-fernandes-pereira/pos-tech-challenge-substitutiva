@@ -12,7 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
-import java.util.UUID;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -29,89 +29,37 @@ public class UserTest {
     }
 
     @Test
-    public void testUserConstructor_ValidInput() {
+    public void testUserConstructor_ValidResident() {
+        Resident resident = mock(Resident.class);
+
+
+
         try (MockedStatic<PasswordUtils> mockedPasswordUtils = mockStatic(PasswordUtils.class)) {
             mockedPasswordUtils.when(PasswordUtils::generatePassayPassword).thenReturn("ValidPass1!");
 
-            User user = new User("+12 34 56789-1234", UserType.RESIDENT.name());
+            User user = new User(resident);
 
             assertNotNull(user.getUserId());
-            assertEquals("+12 34 56789-1234", user.getCellphone());
+
             assertEquals(UserType.RESIDENT.name(), user.getUserType());
             assertEquals("ValidPass1!", user.getPassword());
+            assertTrue(user.getResident().isPresent());
+            assertEquals(resident, user.getResident().get());
         }
     }
 
     @Test
-    public void testUserConstructor_InvalidCellphone() {
-
-        assertThrows(ConstraintViolationException.class, () -> {
-            new User("12345", UserType.RESIDENT.name());
-        });
-
-
-    }
-
-    @Test
-    public void testUserConstructor_InvalidUserType() {
-
-        assertThrows(ConstraintViolationException.class, () -> {
-            new User("+12 34 56789-1234", "INVALID_TYPE");
-        });
-    }
-
-    @Test
     public void testUserConstructor_EmptyPassword() {
+        Resident resident = mock(Resident.class);
+
 
         assertThrows(ConstraintViolationException.class, () -> {
-
             try (MockedStatic<PasswordUtils> mockedPasswordUtils = mockStatic(PasswordUtils.class)) {
                 mockedPasswordUtils.when(PasswordUtils::generatePassayPassword).thenReturn("");
 
-                new User("+12 34 56789-1234", UserType.RESIDENT.name());
-
+                new User(resident);
             }
-
         });
     }
-
-    @Test
-    public void testUserIdConstructor_ValidInput() {
-        User.UserId userId = new User.UserId(UUID.randomUUID().toString());
-        assertNotNull(userId.id());
-    }
-
-    @Test
-    public void testUserConstructor_WithAllParameters() {
-        User.UserId userId = new User.UserId(UUID.randomUUID().toString());
-        String cellphone = "+12 34 56789-1234";
-        String userType = UserType.RESIDENT.name();
-        String password = "ValidPass1!";
-
-        User user = new User(userId, cellphone, userType, password);
-
-        assertNotNull(user.getUserId());
-        assertEquals(userId, user.getUserId());
-        assertEquals(cellphone, user.getCellphone());
-        assertEquals(userType, user.getUserType());
-        assertEquals(password, user.getPassword());
-    }
-
-    @Test
-    public void testUserOfMethod() {
-        User.UserId userId = new User.UserId(UUID.randomUUID().toString());
-        String cellphone = "+12 34 56789-1234";
-        String userType = UserType.RESIDENT.name();
-        String password = "ValidPass1!";
-
-        User user = User.of(userId, cellphone, userType, password);
-
-        assertNotNull(user.getUserId());
-        assertEquals(userId, user.getUserId());
-        assertEquals(cellphone, user.getCellphone());
-        assertEquals(userType, user.getUserType());
-        assertEquals(password, user.getPassword());
-    }
-
 
 }

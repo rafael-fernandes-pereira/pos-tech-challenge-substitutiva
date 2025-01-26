@@ -5,23 +5,17 @@ import com.github.rafaelfernandes.user.common.utils.PasswordUtils;
 import com.github.rafaelfernandes.user.common.validation.ValidPassword;
 import com.github.rafaelfernandes.user.common.validation.Validation;
 import com.github.rafaelfernandes.user.common.validation.ValueOfEnum;
-import com.github.rafaelfernandes.user.common.validation.ValidationContactNumber;
+
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Getter
 public class User {
 
     private final UserId userId;
-
-    @NotNull(message = "Telefone deve ser preenchido")
-    @Size(min = 17, max = 17, message = "Telefone deve conter {min} caracteres")
-    @ValidationContactNumber(message = "Telefone inválido. O telefone deve seguir o padrão +XX XX XXXXX-XXXX")
-    private final String cellphone;
 
     @NotEmpty(message = "Tipo de usuário deve ser preenchido")
     @ValueOfEnum(enumClass = UserType.class, message = "Tipo de usuário inválido")
@@ -31,6 +25,7 @@ public class User {
     @ValidPassword
     private final String password;
 
+    private Optional<Resident> resident;
 
     public record UserId(String id) {
         public UserId(String id) {
@@ -39,10 +34,10 @@ public class User {
         }
     }
 
-    public User(String cellphone, String userType) {
+    public User(Resident resident) {
 
-        this.cellphone = cellphone;
-        this.userType = userType;
+        this.userType = UserType.RESIDENT.name();
+        this.resident = Optional.of(resident);
 
         this.password = PasswordUtils.generatePassayPassword();
         Validation.validate(this);
@@ -53,17 +48,15 @@ public class User {
 
     }
 
-    public User(UserId userId, String cellphone, String userType, String password) {
+    private User(UserId userId, String userType, String password) {
         this.userId = userId;
-        this.cellphone = cellphone;
         this.userType = userType;
         this.password = password;
 
         Validation.validate(this);
     }
 
-    public static User of(UserId userId, String cellphone, String userType, String password) {
-        return new User(userId, cellphone, userType, password);
+    public static User of(UserId userId, String userType, String password) {
+        return new User(userId, userType, password);
     }
-
 }
