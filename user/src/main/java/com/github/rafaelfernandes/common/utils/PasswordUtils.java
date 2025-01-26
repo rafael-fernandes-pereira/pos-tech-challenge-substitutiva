@@ -1,4 +1,4 @@
-package com.github.rafaelfernandes.user.common.utils;
+package com.github.rafaelfernandes.common.utils;
 
 import org.passay.CharacterData;
 import org.passay.CharacterRule;

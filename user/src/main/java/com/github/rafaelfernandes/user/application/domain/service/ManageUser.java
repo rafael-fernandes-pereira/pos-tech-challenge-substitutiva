@@ -5,9 +5,9 @@ import com.github.rafaelfernandes.user.application.domain.model.User;
 import com.github.rafaelfernandes.user.application.port.in.UserUseCase;
 import com.github.rafaelfernandes.user.application.port.out.ResidentPort;
 import com.github.rafaelfernandes.user.application.port.out.UserPort;
-import com.github.rafaelfernandes.user.common.exceptions.ResidentApartmentExistsException;
-import com.github.rafaelfernandes.user.common.exceptions.ResidentCellphoneExistsException;
-import com.github.rafaelfernandes.user.common.annotations.UseCase;
+import com.github.rafaelfernandes.common.exceptions.ResidentApartmentExistsException;
+import com.github.rafaelfernandes.common.exceptions.ResidentCellphoneExistsException;
+import com.github.rafaelfernandes.common.annotations.UseCase;
 import lombok.AllArgsConstructor;
 
 @UseCase

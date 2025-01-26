@@ -1,7 +1,7 @@
 package com.github.rafaelfernandes.user.adapter.out.persistence;
 
 import com.github.rafaelfernandes.user.application.domain.model.User;
-import com.github.rafaelfernandes.user.common.enums.UserType;
+import com.github.rafaelfernandes.common.enums.UserType;
 
 import java.util.UUID;
 

@@ -1,6 +1,6 @@
-package com.github.rafaelfernandes.user.common.validation;
+package com.github.rafaelfernandes.common.validation;
 
-import com.github.rafaelfernandes.user.common.enums.UserType;
+import com.github.rafaelfernandes.common.enums.UserType;
 import jakarta.validation.ConstraintValidator;
 
 import jakarta.validation.ConstraintValidatorContext;

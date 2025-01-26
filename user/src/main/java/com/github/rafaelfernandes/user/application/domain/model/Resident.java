@@ -1,6 +1,6 @@
 package com.github.rafaelfernandes.user.application.domain.model;
 
-import com.github.rafaelfernandes.user.common.validation.ValidationContactNumber;
+import com.github.rafaelfernandes.common.validation.ValidationContactNumber;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -9,7 +9,7 @@ import lombok.Getter;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
 
-import static com.github.rafaelfernandes.user.common.validation.Validation.validate;
+import static com.github.rafaelfernandes.common.validation.Validation.validate;
 
 
 @Getter

@@ -1,4 +1,4 @@
-package com.github.rafaelfernandes.user.common.enums;
+package com.github.rafaelfernandes.common.enums;
 
 public enum UserType {
     RESIDENT,

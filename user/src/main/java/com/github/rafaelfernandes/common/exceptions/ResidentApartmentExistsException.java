@@ -1,4 +1,4 @@
-package com.github.rafaelfernandes.user.common.exceptions;
+package com.github.rafaelfernandes.common.exceptions;
 
 public class ResidentApartmentExistsException extends RuntimeException {
 

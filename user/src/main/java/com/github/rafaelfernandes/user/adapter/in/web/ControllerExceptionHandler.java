@@ -1,15 +1,15 @@
 package com.github.rafaelfernandes.user.adapter.in.web;
 
 import com.github.rafaelfernandes.user.adapter.in.web.response.ResponseError;
-import com.github.rafaelfernandes.user.common.exceptions.ResidentApartmentExistsException;
-import com.github.rafaelfernandes.user.common.exceptions.ResidentCellphoneExistsException;
+import com.github.rafaelfernandes.common.exceptions.ResidentApartmentExistsException;
+import com.github.rafaelfernandes.common.exceptions.ResidentCellphoneExistsException;
 import jakarta.validation.ValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice
+@RestControllerAdvice(basePackages = "com.github.rafaelfernandes.user")
 public class ControllerExceptionHandler {
 
     @ExceptionHandler({ValidationException.class})

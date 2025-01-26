@@ -2,7 +2,7 @@ package com.github.rafaelfernandes.user.adapter.out.api;
 
 import com.github.rafaelfernandes.user.application.domain.model.Resident;
 import com.github.rafaelfernandes.user.application.port.out.ResidentPort;
-import com.github.rafaelfernandes.user.common.annotations.ApiClientAdapter;
+import com.github.rafaelfernandes.common.annotations.ApiClientAdapter;
 import lombok.RequiredArgsConstructor;
 
 @ApiClientAdapter

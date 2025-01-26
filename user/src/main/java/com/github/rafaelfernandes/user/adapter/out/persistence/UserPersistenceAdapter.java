@@ -2,7 +2,7 @@ package com.github.rafaelfernandes.user.adapter.out.persistence;
 
 import com.github.rafaelfernandes.user.application.domain.model.User;
 import com.github.rafaelfernandes.user.application.port.out.UserPort;
-import com.github.rafaelfernandes.user.common.annotations.PersistenceAdapter;
+import com.github.rafaelfernandes.common.annotations.PersistenceAdapter;
 import lombok.RequiredArgsConstructor;
 
 @PersistenceAdapter

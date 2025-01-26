@@ -5,7 +5,7 @@ import com.github.rafaelfernandes.user.adapter.in.web.response.ResponseError;
 import com.github.rafaelfernandes.user.adapter.in.web.response.UserCreatedResponse;
 import com.github.rafaelfernandes.user.application.domain.model.Resident;
 import com.github.rafaelfernandes.user.application.port.in.UserUseCase;
-import com.github.rafaelfernandes.user.common.annotations.WebAdapter;
+import com.github.rafaelfernandes.common.annotations.WebAdapter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

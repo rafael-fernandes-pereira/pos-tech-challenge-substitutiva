@@ -4,7 +4,7 @@ import com.github.rafaelfernandes.user.application.domain.model.Resident;
 import com.github.rafaelfernandes.user.application.domain.model.User;
 import com.github.rafaelfernandes.user.application.port.out.ResidentPort;
 import com.github.rafaelfernandes.user.application.port.out.UserPort;
-import com.github.rafaelfernandes.user.common.exceptions.ResidentCellphoneExistsException;
+import com.github.rafaelfernandes.common.exceptions.ResidentCellphoneExistsException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

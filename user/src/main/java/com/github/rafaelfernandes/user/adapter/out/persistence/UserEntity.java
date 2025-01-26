@@ -1,6 +1,6 @@
 package com.github.rafaelfernandes.user.adapter.out.persistence;
 
-import com.github.rafaelfernandes.user.common.enums.UserType;
+import com.github.rafaelfernandes.common.enums.UserType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;

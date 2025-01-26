@@ -1,10 +1,10 @@
 package com.github.rafaelfernandes.user.application.domain.model;
 
-import com.github.rafaelfernandes.user.common.enums.UserType;
-import com.github.rafaelfernandes.user.common.utils.PasswordUtils;
-import com.github.rafaelfernandes.user.common.validation.ValidPassword;
-import com.github.rafaelfernandes.user.common.validation.Validation;
-import com.github.rafaelfernandes.user.common.validation.ValueOfEnum;
+import com.github.rafaelfernandes.common.enums.UserType;
+import com.github.rafaelfernandes.common.utils.PasswordUtils;
+import com.github.rafaelfernandes.common.validation.ValidPassword;
+import com.github.rafaelfernandes.common.validation.Validation;
+import com.github.rafaelfernandes.common.validation.ValueOfEnum;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;

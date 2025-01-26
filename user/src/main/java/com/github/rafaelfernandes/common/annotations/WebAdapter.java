@@ -1,4 +1,4 @@
-package com.github.rafaelfernandes.user.common.annotations;
+package com.github.rafaelfernandes.common.annotations;
 
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.stereotype.Component;
@@ -9,7 +9,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Component
-public @interface PersistenceAdapter {
+public @interface WebAdapter {
     @AliasFor(annotation = Component.class)
     String value() default "";
 }

@@ -1,7 +1,7 @@
 package com.github.rafaelfernandes.user.application.domain.model;
 
-import com.github.rafaelfernandes.user.common.enums.UserType;
-import com.github.rafaelfernandes.user.common.utils.PasswordUtils;
+import com.github.rafaelfernandes.common.enums.UserType;
+import com.github.rafaelfernandes.common.utils.PasswordUtils;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package com.github.rafaelfernandes.user.common.validation;
+package com.github.rafaelfernandes.common.validation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
