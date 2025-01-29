@@ -26,7 +26,7 @@ public class GatewayApplication {
 	public RouteLocator routeLocator(RouteLocatorBuilder builder) {
 		return builder
 				.routes()
-				.route(r -> r.path("/login-api/v3/api-docs").and().method(HttpMethod.GET).uri("lb://LOGIN-API"))
+				.route(r -> r.path("/user-api/v3/api-docs").and().method(HttpMethod.GET).uri("lb://USER-API"))
 				.route(r -> r.path("/customer-api/v3/api-docs").and().method(HttpMethod.GET).uri("lb://CUSTOMER-API"))
 				.route(r -> r.path("/credit-card-api/v3/api-docs").and().method(HttpMethod.GET).uri("lb://CREDITCARD-API"))
 				.route(r -> r.path("/payment-api/v3/api-docs").and().method(HttpMethod.GET).uri("lb://PAYMENT-API"))

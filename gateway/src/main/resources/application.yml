@@ -4,7 +4,7 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: resident_auth
+        - id: resident-auth
           uri: lb://USER-API
           predicates:
             - Path=/api/login/resident
@@ -12,10 +12,16 @@ spring:
           uri: lb://USER-API
           predicates:
             - Path=/api/login/validate
-        - id: create_users
+        - id: create-users
           uri: lb://USER-API
           predicates:
             - Path=/api/user/**
+        - id: user-swagger
+          uri: lb://USER-API
+          predicates:
+            - Path=/user-api/v3/api-docs
+          filters:
+            - StripPrefix=1
         - id: create_resident
           uri: lb://RESIDENT-API
           predicates:
@@ -47,12 +53,7 @@ spring:
             - Path=/api/pagamentos/**
           filters:
             - AuthenticatorFilter
-        - id: login-swagger
-          uri: lb://LOGIN-API
-          predicates:
-            - Path=/login-api/v3/api-docs
-          filters:
-            - StripPrefix=1
+
         - id: cliente-swagger
           uri: lb://CUSTOMER-API
           predicates:
@@ -109,9 +110,9 @@ springdoc:
     path: /swagger-ui.html
     config-url: /v3/api-docs/swagger-config
     urls:
-      - url: /login-api/v3/api-docs
-        name: Login API Service
-        primaryName: Login API Service
+      - url: /user-api/v3/api-docs
+        name: User API Service
+        primaryName: User API Service
       - url: /customer-api/v3/api-docs
         name: Customer API Service
         primaryName: Customer API Service

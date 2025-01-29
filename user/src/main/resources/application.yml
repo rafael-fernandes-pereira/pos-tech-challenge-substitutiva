@@ -30,3 +30,15 @@ eureka:
     lease-renewal-interval-in-seconds: 5
     lease-expiration-duration-in-seconds: 10
     prefer-ip-address: true
+
+openapi:
+  service:
+    title: USER-API Doc
+    version: 1.0.0
+    url: http://localhost:8082
+
+springdoc:
+  swagger-ui:
+    path: /user-api/swagger-ui.html
+  api-docs:
+    path: /user-api/v3/api-docs
