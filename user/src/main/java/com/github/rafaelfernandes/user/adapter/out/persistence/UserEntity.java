@@ -21,7 +21,7 @@ public class UserEntity {
     @GeneratedValue(generator = "UUIDGenerator")
     private UUID id;
 
-    private UUID residentId;
+    private String cellphone;
 
     private String password;
 

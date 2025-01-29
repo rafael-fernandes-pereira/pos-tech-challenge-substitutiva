@@ -4,10 +4,13 @@ import com.github.rafaelfernandes.user.application.domain.model.User;
 import com.github.rafaelfernandes.user.application.port.out.UserPort;
 import com.github.rafaelfernandes.common.annotations.PersistenceAdapter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @PersistenceAdapter
 @RequiredArgsConstructor
 public class UserPersistenceAdapter implements UserPort {
+
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     private final UserRepository userRepository;
 
@@ -15,9 +18,13 @@ public class UserPersistenceAdapter implements UserPort {
     public User save(User user) {
         var userEntity = UserMapper.toCreateEntity(user);
 
-        var savedUserEntity = userRepository.save(userEntity);
+        var encryptedPassword = bCryptPasswordEncoder.encode(user.getPassword());
 
-        return UserMapper.toDomain(savedUserEntity);
+        userEntity.setPassword(encryptedPassword);
+
+        userRepository.save(userEntity);
+
+        return user;
 
     }
 }

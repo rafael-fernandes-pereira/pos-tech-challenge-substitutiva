@@ -2,6 +2,8 @@ package com.github.rafaelfernandes.login.adapter.in.web;
 
 import com.github.rafaelfernandes.login.adapter.in.web.request.LoginRequest;
 import com.github.rafaelfernandes.login.adapter.in.web.response.LoginTokenResponse;
+import com.github.rafaelfernandes.login.application.domain.model.Login;
+import com.github.rafaelfernandes.login.application.port.in.AuthenticateUseCase;
 import com.github.rafaelfernandes.user.adapter.in.web.response.ResponseError;
 import com.github.rafaelfernandes.common.annotations.WebAdapter;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,6 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 @Tag(name = "Login", description = "Login Endpoint")
 public class LoginController {
+
+    private final AuthenticateUseCase authenticateUseCase;
 
     @Operation(summary = "Authenticate a Resident")
     @ApiResponses(value = {
@@ -48,7 +52,34 @@ public class LoginController {
     )
     ResponseEntity<LoginTokenResponse> login(@RequestBody LoginRequest loginRequest) {
 
-        return ResponseEntity.ok(new LoginTokenResponse("token"));
+        var login = new Login(loginRequest.cellphone(), loginRequest.password());
+
+        var authenticate = authenticateUseCase.authenticate(login);
+
+        return ResponseEntity.ok(new LoginTokenResponse(authenticate));
+    }
+
+    @Operation(summary = "Validate token")
+    @ApiResponses(value = {
+            @ApiResponse(description = "Success", responseCode = "200", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = Boolean.class)
+            )),
+            @ApiResponse(description = "Business and Internal problems", responseCode = "500", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = ResponseError.class),
+                    examples = @io.swagger.v3.oas.annotations.media.ExampleObject(value = "{\"message\":\"Business and Internal problems\",\"status\":500}")
+            ))
+    })
+    @PostMapping(
+            path = "/validate",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    ResponseEntity<Boolean> validateToken(@RequestBody String token) {
+
+        authenticateUseCase.isInvalid(token);
+
+        return ResponseEntity.ok(true);
     }
 
 

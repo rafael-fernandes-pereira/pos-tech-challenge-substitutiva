@@ -12,7 +12,7 @@ public class UserMapper {
         var userType = UserType.valueOf(user.getUserType());
 
         return UserEntity.builder()
-                .residentId(UUID.fromString(user.getResident().get().getResidentId().id()))
+                .cellphone(user.getCellphone())
                 .type(userType)
                 .password(user.getPassword())
                 .build();
@@ -20,8 +20,9 @@ public class UserMapper {
 
     public static User toDomain(UserEntity userEntity) {
         return User.of(
-                new User.UserId(userEntity.getId().toString()),
+                userEntity.getId().toString(),
                 userEntity.getType().name(),
+                userEntity.getCellphone(),
                 userEntity.getPassword()
 
         );
