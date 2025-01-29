@@ -13,7 +13,7 @@ public class ResidentCallAPIAdapter implements ResidentPort {
 
     @Override
     public Boolean exitsByCellphone(String cellphone) {
-        return residentApiClient.findByCellphone(cellphone).size() > 0;
+        return !residentApiClient.findByCellphone(cellphone).isEmpty();
     }
 
     @Override
@@ -42,11 +42,11 @@ public class ResidentCallAPIAdapter implements ResidentPort {
         var residentResponse = residentApiClient.findById(id);
 
         return Resident.of(
-                residentResponse.id(),
-                residentResponse.name(),
-                residentResponse.document(),
-                residentResponse.cellphone(),
-                residentResponse.apartment()
+                residentResponse.getId(),
+                residentResponse.getName(),
+                residentResponse.getDocument(),
+                residentResponse.getCellphone(),
+                residentResponse.getApartment()
         );
     }
 }
