@@ -12,4 +12,6 @@ public interface TokenUseCase {
 
     Boolean isInvalid(String token);
 
+    void roleIsValid(String token, String role);
+
 }

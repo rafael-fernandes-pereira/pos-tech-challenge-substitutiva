@@ -20,16 +20,17 @@ public class ValidateTokenService {
     @Value("${login.api}")
     private String loginApi;
 
-    public boolean validate(String token) {
+    public boolean validate(String token, String role) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
-        headers.set("Authorization", token);
 
-        HttpEntity<String> requestEntity = new HttpEntity<>("", headers);
+        var request = new TokenValidateRequest(token, role);
+
+        HttpEntity<TokenValidateRequest> requestEntity = new HttpEntity<>(request, headers);
 
         ResponseEntity<String> response = restTemplate.exchange(
-                loginApi + "/api/validacao",
+                loginApi + "/validate",
                 HttpMethod.POST,
                 requestEntity,
                 String.class

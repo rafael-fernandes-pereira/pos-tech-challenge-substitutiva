@@ -2,8 +2,6 @@ package com.github.rafaelfernandes.user.adapter.out.api;
 
 import lombok.Data;
 
-import java.util.UUID;
-
 @Data
 public class ResidentResponse {
         private final String id;

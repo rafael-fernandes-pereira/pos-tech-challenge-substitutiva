@@ -21,11 +21,14 @@ spring:
           predicates:
             - Path=/api/resident
             - Method=POST
-        - id: get_resident
+
+        - id: resident_other_operations
           uri: lb://RESIDENT-API
           predicates:
             - Path=/api/resident/**
-            - Method=GET
+            - Method=GET,PUT,DELETE
+          filters:
+            - AuthenticatorFilter=RESIDENT
         - id: cliente
           uri: lb://CUSTOMER-API
           predicates:

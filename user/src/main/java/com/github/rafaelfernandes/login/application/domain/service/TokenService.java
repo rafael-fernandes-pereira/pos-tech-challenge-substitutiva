@@ -2,6 +2,8 @@ package com.github.rafaelfernandes.login.application.domain.service;
 
 import com.github.rafaelfernandes.common.annotations.UseCase;
 import com.github.rafaelfernandes.common.enums.UserType;
+import com.github.rafaelfernandes.common.exceptions.InvalidTokenException;
+import com.github.rafaelfernandes.common.exceptions.UnauthorizedException;
 import com.github.rafaelfernandes.login.application.port.in.TokenUseCase;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -34,7 +36,7 @@ public class TokenService implements TokenUseCase {
     public String generateToken(String cellphone, UserType userType, UUID id) {
         Map<String, Object> claims = new HashMap<>();
 
-        claims.put("role", userType);
+        claims.put("role", userType.name());
         claims.put("loginId", id);
 
         return Jwts.builder()
@@ -55,5 +57,18 @@ public class TokenService implements TokenUseCase {
         Date now = new Date();
 
         return now.getTime() - createdDate.getTime() > 120000;
+    }
+
+    @Override
+    public void roleIsValid(String token, String role) {
+
+        var claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+
+        var roleClaim = claims.get("role");
+
+        if (!roleClaim.equals(role)) {
+            throw new InvalidTokenException();
+        }
+
     }
 }

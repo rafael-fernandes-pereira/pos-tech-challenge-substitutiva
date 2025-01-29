@@ -1,9 +1,11 @@
 package com.github.rafaelfernandes.login.adapter.in.web;
 
 import com.github.rafaelfernandes.login.adapter.in.web.request.LoginRequest;
+import com.github.rafaelfernandes.login.adapter.in.web.request.TokenValidateRequest;
 import com.github.rafaelfernandes.login.adapter.in.web.response.LoginTokenResponse;
 import com.github.rafaelfernandes.login.application.domain.model.Login;
 import com.github.rafaelfernandes.login.application.port.in.AuthenticateUseCase;
+import com.github.rafaelfernandes.login.application.port.in.TokenUseCase;
 import com.github.rafaelfernandes.user.adapter.in.web.response.ResponseError;
 import com.github.rafaelfernandes.common.annotations.WebAdapter;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
 
     private final AuthenticateUseCase authenticateUseCase;
+    private final TokenUseCase tokenUseCase;
 
     @Operation(summary = "Authenticate a Resident")
     @ApiResponses(value = {
@@ -75,9 +78,11 @@ public class LoginController {
             path = "/validate",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    ResponseEntity<Boolean> validateToken(@RequestBody String token) {
+    ResponseEntity<Boolean> validateToken(@RequestBody TokenValidateRequest request) {
 
-        authenticateUseCase.isInvalid(token);
+        authenticateUseCase.isInvalid(request.token());
+
+        tokenUseCase.roleIsValid(request.token(), request.role());
 
         return ResponseEntity.ok(true);
     }

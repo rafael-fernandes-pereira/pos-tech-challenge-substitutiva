@@ -1,5 +1,6 @@
 package com.github.rafaelfernandes.login.adapter.in.web;
 
+import com.github.rafaelfernandes.common.exceptions.InvalidTokenException;
 import com.github.rafaelfernandes.common.exceptions.UnauthorizedException;
 import com.github.rafaelfernandes.user.adapter.in.web.response.ResponseError;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -38,6 +39,18 @@ public class ControllerLoginExceptionHandler {
 
         return ResponseEntity
                 .status(403)
+                .body(response)
+                ;
+
+    }
+
+    @ExceptionHandler(InvalidTokenException.class)
+    public ResponseEntity<ResponseError> unauthorizedException(InvalidTokenException exception){
+
+        var response = new ResponseError(exception.getMessage(), exception.getStatus());
+
+        return ResponseEntity
+                .status(exception.getStatus())
                 .body(response)
                 ;
 
