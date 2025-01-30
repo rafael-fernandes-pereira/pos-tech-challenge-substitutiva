@@ -16,6 +16,12 @@ services:
     ports:
       - 5433:5432
 
+  employee-db:
+    <<: *database
+    container_name: employee_db
+    ports:
+      - 5434:5432
+
 
 networks:
   eureka-network:
