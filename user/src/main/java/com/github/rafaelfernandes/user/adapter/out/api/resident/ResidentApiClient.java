@@ -1,4 +1,4 @@
-package com.github.rafaelfernandes.user.adapter.out.api;
+package com.github.rafaelfernandes.user.adapter.out.api.resident;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

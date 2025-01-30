@@ -1,8 +1,10 @@
 package com.github.rafaelfernandes.user.adapter.in.web;
 
-import com.github.rafaelfernandes.user.adapter.in.web.request.UserRequest;
+import com.github.rafaelfernandes.user.adapter.in.web.request.EmployeeRequest;
+import com.github.rafaelfernandes.user.adapter.in.web.request.ResidentRequest;
 import com.github.rafaelfernandes.user.adapter.in.web.response.ResponseError;
 import com.github.rafaelfernandes.user.adapter.in.web.response.UserCreatedResponse;
+import com.github.rafaelfernandes.user.application.domain.model.Employee;
 import com.github.rafaelfernandes.user.application.domain.model.Resident;
 import com.github.rafaelfernandes.user.application.port.in.UserUseCase;
 import com.github.rafaelfernandes.common.annotations.WebAdapter;
@@ -51,16 +53,56 @@ public class UserController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
 
-    public UserCreatedResponse create(@Parameter @RequestBody UserRequest userRequest) {
+    public UserCreatedResponse create(@Parameter @RequestBody ResidentRequest residentRequest) {
 
         var resident = new Resident(
-                userRequest.name(),
-                userRequest.document(),
-                userRequest.cellphone(),
-                userRequest.apartment()
+                residentRequest.name(),
+                residentRequest.document(),
+                residentRequest.cellphone(),
+                residentRequest.apartment()
         );
 
         var createdUserPassword = userUseCase.createResident(resident);
+
+        return new UserCreatedResponse(
+                resident.getCellphone(),
+                createdUserPassword
+        );
+
+
+    }
+
+    @Operation(summary = "Create a Employee")
+    @ApiResponses(value = {
+            @ApiResponse(description = "Success", responseCode = "200", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = UserCreatedResponse.class)
+            )),
+            @ApiResponse(description = "Business and Internal problems", responseCode = "500", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = ResponseError.class),
+                    examples = @io.swagger.v3.oas.annotations.media.ExampleObject(value = "{\"message\":\"Business and Internal problems\",\"status\":500}")
+            )),
+            @ApiResponse(description = "Authenticate error", responseCode = "401", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = ResponseError.class),
+                    examples = @io.swagger.v3.oas.annotations.media.ExampleObject(value = "{\"message\":\"Authenticate error\",\"status\":401}")
+            ))
+    })
+    @PostMapping(
+            path = "/employee",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+
+    public UserCreatedResponse create(@Parameter @RequestBody EmployeeRequest employeeRequest) {
+
+        var resident = new Employee(
+                employeeRequest.name(),
+                employeeRequest.document(),
+                employeeRequest.cellphone()
+        );
+
+        var createdUserPassword = userUseCase.createEmployee(resident);
 
         return new UserCreatedResponse(
                 resident.getCellphone(),

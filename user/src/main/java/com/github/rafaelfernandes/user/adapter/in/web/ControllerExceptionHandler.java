@@ -1,5 +1,6 @@
 package com.github.rafaelfernandes.user.adapter.in.web;
 
+import com.github.rafaelfernandes.common.exceptions.UserCellphoneExistsException;
 import com.github.rafaelfernandes.user.adapter.in.web.response.ResponseError;
 import com.github.rafaelfernandes.common.exceptions.ResidentApartmentExistsException;
 import com.github.rafaelfernandes.common.exceptions.ResidentCellphoneExistsException;
@@ -19,8 +20,8 @@ public class ControllerExceptionHandler {
                 .body(new ResponseError(exception.getMessage(), HttpStatus.BAD_REQUEST.value()));
     }
 
-    @ExceptionHandler({ResidentCellphoneExistsException.class})
-    public ResponseEntity<ResponseError> errorValidation(ResidentCellphoneExistsException exception){
+    @ExceptionHandler({UserCellphoneExistsException.class})
+    public ResponseEntity<ResponseError> errorValidation(UserCellphoneExistsException exception){
         return ResponseEntity
                 .status(HttpStatus.valueOf(exception.getStatus()))
                 .body(new ResponseError(exception.getMessage(), exception.getStatus()));

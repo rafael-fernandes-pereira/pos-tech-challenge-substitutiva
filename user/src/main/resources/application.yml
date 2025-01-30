@@ -18,8 +18,7 @@ server:
   port: 8082
 jwt:
   secret: 66e48fcca777ed0975ff8a7f51198db678aea9661298bcd34adace1ecefa2cce
-resident:
-  url: ${RESIDENT_URL}
+
 eureka:
   client:
     register-with-eureka: true
@@ -42,3 +41,8 @@ springdoc:
     path: /user-api/swagger-ui.html
   api-docs:
     path: /user-api/v3/api-docs
+
+resident:
+  url: ${RESIDENT_URL}
+employee:
+  url: ${EMPLOYEE_URL}

@@ -34,6 +34,7 @@ public class User {
     private final String password;
 
     private Optional<Resident> resident;
+    private Optional<Employee> employee;
 
     public record UserId(String id) {
         public UserId(String id) {
@@ -48,6 +49,22 @@ public class User {
         this.resident = Optional.of(resident);
 
         this.cellphone = resident.getCellphone();
+
+        this.password = PasswordUtils.generatePassayPassword();
+        Validation.validate(this);
+
+        var id = UUID.randomUUID();
+
+        this.userId = new UserId(id.toString());
+
+    }
+
+    public User(Employee employee) {
+
+        this.userType = UserType.EMPLOYEE.name();
+        this.employee = Optional.of(employee);
+
+        this.cellphone = employee.getCellphone();
 
         this.password = PasswordUtils.generatePassayPassword();
         Validation.validate(this);

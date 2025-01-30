@@ -6,6 +6,8 @@ import com.github.rafaelfernandes.common.annotations.PersistenceAdapter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.Optional;
+
 @PersistenceAdapter
 @RequiredArgsConstructor
 public class UserPersistenceAdapter implements UserPort {
@@ -26,5 +28,12 @@ public class UserPersistenceAdapter implements UserPort {
 
         return user;
 
+    }
+
+    @Override
+    public Optional<User> findByCellphone(String cellphone) {
+        var userEntity = userRepository.findByCellphone(cellphone);
+
+        return userEntity.map(UserMapper::toDomain);
     }
 }

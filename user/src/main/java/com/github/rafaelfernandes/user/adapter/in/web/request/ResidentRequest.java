@@ -2,7 +2,7 @@ package com.github.rafaelfernandes.user.adapter.in.web.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-public record UserRequest(
+public record ResidentRequest(
         @Schema(minimum = "3", maximum = "100")
         String name,
 

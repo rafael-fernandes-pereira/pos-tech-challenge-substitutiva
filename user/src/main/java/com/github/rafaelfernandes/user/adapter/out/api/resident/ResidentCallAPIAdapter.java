@@ -1,4 +1,4 @@
-package com.github.rafaelfernandes.user.adapter.out.api;
+package com.github.rafaelfernandes.user.adapter.out.api.resident;
 
 import com.github.rafaelfernandes.user.application.domain.model.Resident;
 import com.github.rafaelfernandes.user.application.port.out.ResidentPort;
