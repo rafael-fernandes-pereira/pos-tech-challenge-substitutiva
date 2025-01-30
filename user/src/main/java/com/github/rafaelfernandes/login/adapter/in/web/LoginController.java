@@ -32,7 +32,7 @@ public class LoginController {
     private final AuthenticateUseCase authenticateUseCase;
     private final TokenUseCase tokenUseCase;
 
-    @Operation(summary = "Authenticate a Resident")
+    @Operation(summary = "Authenticate")
     @ApiResponses(value = {
             @ApiResponse(description = "Success", responseCode = "200", content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
@@ -50,7 +50,7 @@ public class LoginController {
             ))
     })
     @PostMapping(
-            path = "/resident",
+            path = "",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     ResponseEntity<LoginTokenResponse> login(@RequestBody LoginRequest loginRequest) {
