@@ -34,7 +34,7 @@ openapi:
   service:
     title: USER-API Doc
     version: 1.0.0
-    url: http://localhost:8082
+    url: http://localhost:8080
 
 springdoc:
   swagger-ui:

@@ -32,7 +32,7 @@ openapi:
   service:
     title: RESIDENT-API Doc
     version: 1.0.0
-    url: http://localhost:8081
+    url: http://localhost:8080
 
 springdoc:
   swagger-ui:
