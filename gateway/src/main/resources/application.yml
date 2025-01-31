@@ -4,10 +4,10 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: resident-auth
+        - id: authenticate
           uri: lb://USER-API
           predicates:
-            - Path=/api/login/resident
+            - Path=/api/login
         - id: validate
           uri: lb://USER-API
           predicates:
@@ -22,10 +22,17 @@ spring:
             - Path=/user-api/v3/api-docs
           filters:
             - StripPrefix=1
+
         - id: create_resident
           uri: lb://RESIDENT-API
           predicates:
             - Path=/api/resident
+            - Method=POST
+
+        - id: create_employee
+          uri: lb://RESIDENT-API
+          predicates:
+            - Path=/api/employee
             - Method=POST
 
         - id: resident_other_operations
@@ -35,41 +42,26 @@ spring:
             - Method=GET,PUT,DELETE
           filters:
             - AuthenticatorFilter=RESIDENT
-        - id: cliente
-          uri: lb://CUSTOMER-API
-          predicates:
-            - Path=/api/cliente/**
-          filters:
-            - AuthenticatorFilter
-        - id: cartao
-          uri: lb://CREDITCARD-API
-          predicates:
-            - Path=/api/cartao/**
-          filters:
-            - AuthenticatorFilter
-        - id: pagamento
-          uri: lb://PAYMENT-API
-          predicates:
-            - Path=/api/pagamentos/**
-          filters:
-            - AuthenticatorFilter
 
-        - id: cliente-swagger
-          uri: lb://CUSTOMER-API
+        - id: resident-swagger
+          uri: lb://RESIDENT-API
           predicates:
-            - Path=/customer-api/v3/api-docs
+            - Path=/resident-api/v3/api-docs
           filters:
             - StripPrefix=1
-        - id: cartao-swagger
-          uri: lb://CREDITCARD-API
+
+        - id: employee_other_operations
+          uri: lb://EMPLOYEE-API
           predicates:
-            - Path=/credit-card-api/v3/api-docs
+            - Path=/api/employee/**
+            - Method=GET,PUT,DELETE
           filters:
-            - StripPrefix=1
-        - id: pagamento-swagger
-          uri: lb://PAYMENT-API
+            - AuthenticatorFilter=EMPLOYEE
+
+        - id: employee-swagger
+          uri: lb://EMPLOYEE-API
           predicates:
-            - Path=/payment-api/v3/api-docs
+            - Path=/employee-api/v3/api-docs
           filters:
             - StripPrefix=1
 
@@ -113,12 +105,9 @@ springdoc:
       - url: /user-api/v3/api-docs
         name: User API Service
         primaryName: User API Service
-      - url: /customer-api/v3/api-docs
-        name: Customer API Service
-        primaryName: Customer API Service
-      - url: /credit-card-api/v3/api-docs
-        name: Credit Card API Service
-        primaryName: Credit Card API Service
-      - url: /payment-api/v3/api-docs
-        name: Payment API Service
-        primaryName: Payment API Service
+      - url: /resident-api/v3/api-docs
+        name: Resident API Service
+        primaryName: Resident API Service
+      - url: /employee-api/v3/api-docs
+        name: Employee API Service
+        primaryName: Employee API Service
