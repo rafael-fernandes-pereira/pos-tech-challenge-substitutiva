@@ -8,6 +8,6 @@ public interface DeliveryUseCase {
 
     Delivery.DeliveryId create(Integer apartment, String employeeCellphone, String nameDestination, String packageDescription);
 
-    List<Delivery> getAllByApartment(Integer apartment, String notificationStatus);
+    List<Delivery> getAllByApartment(Integer apartment, String deliveryStatus);
 
 }

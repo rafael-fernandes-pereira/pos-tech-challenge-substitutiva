@@ -7,6 +7,7 @@ import com.github.rafaelfernandes.delivery.application.port.out.EmployeePort;
 import com.github.rafaelfernandes.delivery.application.port.out.NotificationPort;
 import com.github.rafaelfernandes.delivery.application.port.out.ResidentPort;
 import com.github.rafaelfernandes.delivery.common.annotations.UseCase;
+import com.github.rafaelfernandes.delivery.common.enums.DeliveryStatus;
 import com.github.rafaelfernandes.delivery.common.enums.NotificationStatus;
 import com.github.rafaelfernandes.delivery.common.exception.ApartmentNotFoundException;
 import com.github.rafaelfernandes.delivery.common.exception.EmployeeNotFoundException;
@@ -52,7 +53,7 @@ public class ManageDeliveryUseCase implements DeliveryUseCase {
     }
 
     @Override
-    public List<Delivery> getAllByApartment(Integer apartment, String notificationStatus) {
+    public List<Delivery> getAllByApartment(Integer apartment, String deliveryStatus) {
 
         var resident = residentPort.getByApartment(apartment);
 
@@ -60,12 +61,12 @@ public class ManageDeliveryUseCase implements DeliveryUseCase {
 
         var deliveries = deliveryPort.getAllByResident(resident.get());
 
-        if (Strings.isNotEmpty(notificationStatus)) {
+        if (Strings.isNotEmpty(deliveryStatus)) {
 
-            var notification = NotificationStatus.valueOf(notificationStatus);
+            var deliveryStatusEnum = DeliveryStatus.valueOf(deliveryStatus);
 
             deliveries = deliveries.stream()
-                    .filter(delivery -> delivery.getNotificationStatus().equals(notification.name()))
+                    .filter(delivery -> delivery.getDeliveryStatus().equals(deliveryStatusEnum.name()))
                     .toList();
 
         }

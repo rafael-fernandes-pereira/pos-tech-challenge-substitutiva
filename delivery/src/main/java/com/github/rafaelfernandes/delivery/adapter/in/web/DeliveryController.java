@@ -64,7 +64,7 @@ public class DeliveryController {
 
     }
 
-    @Operation(summary = "Show all deliveries by apartment and notification status")
+    @Operation(summary = "Show all deliveries by apartment and delivery status")
     @ApiResponses(value = {
             @ApiResponse(description = "Success", responseCode = "200", content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
@@ -87,10 +87,10 @@ public class DeliveryController {
     )
     ResponseEntity<List<DeliveryResponse>> getAllByApartment(
             @Parameter(description = "Apartment number") @PathVariable Integer apartment,
-            @Parameter(description = "Notification status") @RequestParam(required = false) String notificationStatus
+            @Parameter(description = "Delivery status") @RequestParam(required = false) String deliveryStatus
     ) {
 
-        var deliveries = useCase.getAllByApartment(apartment, notificationStatus);
+        var deliveries = useCase.getAllByApartment(apartment, deliveryStatus);
 
         List<DeliveryResponse> deliveriesResponse = new ArrayList<>();
 
