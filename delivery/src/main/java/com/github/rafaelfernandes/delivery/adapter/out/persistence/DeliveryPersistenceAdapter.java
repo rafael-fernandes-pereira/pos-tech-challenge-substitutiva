@@ -1,9 +1,12 @@
 package com.github.rafaelfernandes.delivery.adapter.out.persistence;
 
 import com.github.rafaelfernandes.delivery.application.domain.model.Delivery;
+import com.github.rafaelfernandes.delivery.application.domain.model.Resident;
 import com.github.rafaelfernandes.delivery.application.port.out.DeliveryPort;
 import com.github.rafaelfernandes.delivery.common.annotations.PersistenceAdapter;
 import lombok.AllArgsConstructor;
+
+import java.util.List;
 
 @PersistenceAdapter
 @AllArgsConstructor
@@ -14,18 +17,20 @@ public class DeliveryPersistenceAdapter implements DeliveryPort {
     @Override
     public Delivery.DeliveryId save(Delivery delivery) {
 
-        var deliveryEntity = DeliveryJpaEntity.builder().
-                residentId(delivery.getResident().getResidentId().id()).
-                employeeId(delivery.getEmployee().getEmployeeId().id()).
-                deliveryStatus(delivery.getDeliveryStatus()).
-                notificationStatus(delivery.getNotificationStatus()).
-                enterDate(delivery.getEnterDate()).
-                receiverName(delivery.getReceiverName()).
-                build();
+        var deliveryEntity = DeliveryMapper.toEntity(delivery);
 
         var saved = deliveryRepositpory.save(deliveryEntity);
 
         return new Delivery.DeliveryId(saved.getId().toString());
+
+    }
+
+    @Override
+    public List<Delivery> getAllByResident(Resident resident) {
+        var deliveries = deliveryRepositpory.findByResidentId(resident.residentId().id());
+
+        return deliveries.stream().map(DeliveryMapper::toDomain).toList();
+
 
     }
 }

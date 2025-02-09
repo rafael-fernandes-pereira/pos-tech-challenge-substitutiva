@@ -7,4 +7,6 @@ import java.util.Optional;
 public interface EmployeePort {
 
     Optional<Employee> findByCellphone(String cellphone);
+
+    Optional<Employee> findById(String employeeId);
 }

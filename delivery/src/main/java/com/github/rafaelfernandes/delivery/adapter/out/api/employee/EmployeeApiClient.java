@@ -16,9 +16,6 @@ public interface EmployeeApiClient {
     Optional<EmployeeResponse> findByCellphone(@PathVariable String cellphone);
 
     @GetMapping("/{id}")
-    EmployeeResponse findById(@PathVariable String id);
-
-    @PostMapping("")
-    EmployeeIdResponse create(@RequestBody EmployeeRequest employeeRequest);
+    Optional<EmployeeResponse> findById(@PathVariable String id);
 
 }

@@ -28,9 +28,13 @@ public class DeliveryJpaEntity {
 
     private String employeeId;
 
-    private String deliveryStatus;
+    private String destinationName;
+
+    private String packageDescription;
 
     private String notificationStatus;
+
+    private String deliveryStatus;
 
     private LocalDate enterDate;
 

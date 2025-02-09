@@ -18,8 +18,23 @@ public class EmployeeCallAPIAdapter implements EmployeePort {
 
         var response = employeeApiClient.findByCellphone(cellphone);
 
-        return response.map(employeeResponse -> Employee.of(
-                employeeResponse.id(),
+        return response.map(employeeResponse -> new Employee(
+                new Employee.EmployeeId(employeeResponse.id()),
+                employeeResponse.name(),
+                employeeResponse.document(),
+                employeeResponse.cellphone()
+
+        ));
+
+    }
+
+    @Override
+    public Optional<Employee> findById(String employeeId) {
+
+        var response = employeeApiClient.findById(employeeId);
+
+        return response.map(employeeResponse -> new Employee(
+                new Employee.EmployeeId(employeeResponse.id()),
                 employeeResponse.name(),
                 employeeResponse.document(),
                 employeeResponse.cellphone()

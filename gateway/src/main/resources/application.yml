@@ -73,6 +73,12 @@ spring:
             - Path=/api/delivery/register
             - Method=POST
 
+        - id: delivery_get
+          uri: lb://DELIVERY-API
+          predicates:
+            - Path=/api/delivery/**
+            - Method=GET
+
     discovery:
       locator:
         lower-case-service-id: true

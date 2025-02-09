@@ -5,7 +5,6 @@ import com.github.rafaelfernandes.delivery.common.enums.NotificationStatus;
 import com.github.rafaelfernandes.delivery.common.validation.ValueOfEnumDeliveryStatus;
 import com.github.rafaelfernandes.delivery.common.validation.ValueOfEnumNotificationStatus;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import org.hibernate.validator.constraints.Length;
 
@@ -18,11 +17,9 @@ public class Delivery {
 
     private final DeliveryId id;
 
-    @NotNull(message = "Residente deve ser preenchido")
-    private final Resident resident;
+    private Resident resident;
 
-    @NotNull(message = "Funcionário deve ser preenchido")
-    private final Employee employee;
+    private Employee employee;
 
     @NotEmpty(message = "Nome do destinatário deve ser preenchido")
     @Length(min = 3, max = 100, message = "O campo deve ter no minimo {min} e no maximo {max} caracteres")
@@ -69,21 +66,27 @@ public class Delivery {
         validate(this);
     }
 
-   private Delivery(String id, Resident resident, Employee employee, String destinationName, String packageDescription) {
+
+
+
+    private Delivery(String id, Resident resident, Employee employee, String destinationName, String packageDescription, String deliveryStatus, String notificationStatus, LocalDate enterDate, LocalDate exitDate, String receiverName) {
         this.id = new DeliveryId(id);
         this.resident = resident;
         this.employee = employee;
         this.packageDescription = packageDescription;
-        this.deliveryStatus = DeliveryStatus.TO_DELIVER.name();
-        this.notificationStatus = NotificationStatus.TO_SEND.name();
-        this.enterDate = LocalDate.now();
+        this.deliveryStatus = deliveryStatus;
+        this.notificationStatus = notificationStatus;
+        this.enterDate = enterDate;
+        this.exitDate = exitDate;
+        this.receiverName = receiverName;
         this.destinationName = destinationName;
         validate(this);
     }
 
-    public static Delivery ofCreate(String id, Resident resident, Employee employee, String destinationName, String packageDescription) {
-        return new Delivery(id, resident, employee, destinationName, packageDescription);
+    public static Delivery of(String id, Resident resident, Employee employee, String destinationName, String packageDescription, String deliveryStatus, String notificationStatus, LocalDate enterDate, LocalDate exitDate, String receiverName) {
+        return new Delivery(id, resident, employee, destinationName, packageDescription, deliveryStatus, notificationStatus, enterDate, exitDate, receiverName);
     }
+
 
 
 }

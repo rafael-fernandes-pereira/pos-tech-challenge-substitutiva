@@ -11,6 +11,10 @@ import com.github.rafaelfernandes.delivery.common.enums.NotificationStatus;
 import com.github.rafaelfernandes.delivery.common.exception.ApartmentNotFoundException;
 import com.github.rafaelfernandes.delivery.common.exception.EmployeeNotFoundException;
 import lombok.AllArgsConstructor;
+import org.apache.logging.log4j.util.Strings;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @UseCase
 @AllArgsConstructor
@@ -44,6 +48,54 @@ public class ManageDeliveryUseCase implements DeliveryUseCase {
         return deliverySaved;
 
 
+
+    }
+
+    @Override
+    public List<Delivery> getAllByApartment(Integer apartment, String notificationStatus) {
+
+        var resident = residentPort.getByApartment(apartment);
+
+        if (resident.isEmpty()) throw new ApartmentNotFoundException();
+
+        var deliveries = deliveryPort.getAllByResident(resident.get());
+
+        if (Strings.isNotEmpty(notificationStatus)) {
+
+            var notification = NotificationStatus.valueOf(notificationStatus);
+
+            deliveries = deliveries.stream()
+                    .filter(delivery -> delivery.getNotificationStatus().equals(notification.name()))
+                    .toList();
+
+        }
+
+        var deliveriesComplete = new ArrayList<Delivery>();
+
+        for (Delivery delivery : deliveries) {
+
+            var employee = employeePort.findById(delivery.getEmployee().employeeId().id());
+
+            if (employee.isEmpty()) throw new EmployeeNotFoundException();
+
+            var delivertComplete = Delivery.of(
+                    delivery.getId().id(),
+                    resident.get(),
+                    employee.get(),
+                    delivery.getDestinationName(),
+                    delivery.getPackageDescription(),
+                    delivery.getDeliveryStatus(),
+                    delivery.getNotificationStatus(),
+                    delivery.getEnterDate(),
+                    delivery.getExitDate(),
+                    delivery.getReceiverName()
+            );
+
+            deliveriesComplete.add(delivertComplete);
+
+        }
+
+        return deliveriesComplete;
 
     }
 }

@@ -19,8 +19,8 @@ public class ResidentCallAPIAdapter implements ResidentPort {
 
         var resident = residentApiClient.findByApartment(apartment);
 
-        return resident.map(residentResponse -> Resident.of(
-                residentResponse.getId(),
+        return resident.map(residentResponse -> new Resident(
+                new Resident.ResidentId(residentResponse.getId()),
                 residentResponse.getName(),
                 residentResponse.getDocument(),
                 residentResponse.getCellphone(),
