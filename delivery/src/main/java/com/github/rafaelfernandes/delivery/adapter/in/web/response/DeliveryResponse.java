@@ -12,8 +12,8 @@ public record DeliveryResponse(
         String packageDescription,
         String receiverName,
         String notificationStatus,
-        LocalDate enterDate,
-        LocalDate exitDate
+        LocalDateTime enterDate,
+        LocalDateTime exitDate
 ) {
 
 }

@@ -8,6 +8,7 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -36,9 +37,9 @@ public class DeliveryJpaEntity {
 
     private String deliveryStatus;
 
-    private LocalDate enterDate;
+    private LocalDateTime enterDate;
 
-    private LocalDate exitDate;
+    private LocalDateTime exitDate;
 
     private String receiverName;
 

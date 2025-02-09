@@ -9,6 +9,7 @@ import lombok.Getter;
 import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static com.github.rafaelfernandes.delivery.common.validation.Validation.validate;
 
@@ -37,9 +38,9 @@ public class Delivery {
     @ValueOfEnumNotificationStatus(enumClass = NotificationStatus.class, message = "Status de notificação inválido")
     private String notificationStatus;
 
-    private final LocalDate enterDate;
+    private final LocalDateTime enterDate;
 
-    private LocalDate exitDate;
+    private LocalDateTime exitDate;
 
     private String receiverName;
 
@@ -60,7 +61,7 @@ public class Delivery {
         this.packageDescription = packageDescription;
         this.destinationName = destinationName;
         this.deliveryStatus = DeliveryStatus.TO_DELIVER.name();
-        this.enterDate = LocalDate.now();
+        this.enterDate = LocalDateTime.now();
         this.notificationStatus = NotificationStatus.TO_SEND.name();
         this.id = new DeliveryId(java.util.UUID.randomUUID().toString());
         validate(this);
@@ -69,7 +70,7 @@ public class Delivery {
 
 
 
-    private Delivery(String id, Resident resident, Employee employee, String destinationName, String packageDescription, String deliveryStatus, String notificationStatus, LocalDate enterDate, LocalDate exitDate, String receiverName) {
+    private Delivery(String id, Resident resident, Employee employee, String destinationName, String packageDescription, String deliveryStatus, String notificationStatus, LocalDateTime enterDate, LocalDateTime exitDate, String receiverName) {
         this.id = new DeliveryId(id);
         this.resident = resident;
         this.employee = employee;
@@ -83,7 +84,7 @@ public class Delivery {
         validate(this);
     }
 
-    public static Delivery of(String id, Resident resident, Employee employee, String destinationName, String packageDescription, String deliveryStatus, String notificationStatus, LocalDate enterDate, LocalDate exitDate, String receiverName) {
+    public static Delivery of(String id, Resident resident, Employee employee, String destinationName, String packageDescription, String deliveryStatus, String notificationStatus, LocalDateTime enterDate, LocalDateTime exitDate, String receiverName) {
         return new Delivery(id, resident, employee, destinationName, packageDescription, deliveryStatus, notificationStatus, enterDate, exitDate, receiverName);
     }
 

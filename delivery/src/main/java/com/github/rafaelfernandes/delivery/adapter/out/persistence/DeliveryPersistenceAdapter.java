@@ -9,6 +9,7 @@ import com.github.rafaelfernandes.delivery.common.enums.NotificationStatus;
 import lombok.AllArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -53,6 +54,10 @@ public class DeliveryPersistenceAdapter implements DeliveryPort {
 
         var delivery = this.getById(deliveryId);
 
+        if (delivery.get().getNotificationStatus().equals(notificationStatus.name())) {
+            return;
+        }
+
         var deliveryEntity = DeliveryMapper.toSavedEntity(delivery.get());
 
         deliveryEntity.setNotificationStatus(notificationStatus.name());
@@ -66,13 +71,17 @@ public class DeliveryPersistenceAdapter implements DeliveryPort {
 
         var delivery = this.getById(deliveryId);
 
+        if (delivery.get().getDeliveryStatus().equals(DeliveryStatus.DELIVERED.name())) {
+            return;
+        }
+
         var deliveryEntity = DeliveryMapper.toSavedEntity(delivery.get());
 
         deliveryEntity.setReceiverName(receiverName);
 
         deliveryEntity.setDeliveryStatus(DeliveryStatus.DELIVERED.name());
 
-        deliveryEntity.setExitDate(LocalDate.now());
+        deliveryEntity.setExitDate(LocalDateTime.now());
 
         deliveryRepositpory.save(deliveryEntity);
     }
