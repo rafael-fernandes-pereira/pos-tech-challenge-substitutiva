@@ -10,4 +10,6 @@ public interface DeliveryUseCase {
 
     List<Delivery> getAllByApartment(Integer apartment, String deliveryStatus);
 
+    void updateNotificationStatus(String deliveryId, String notificationStatus);
+
 }

@@ -77,7 +77,7 @@ spring:
           uri: lb://DELIVERY-API
           predicates:
             - Path=/api/delivery/**
-            - Method=GET
+            - Method=GET,PUT
 
     discovery:
       locator:

@@ -3,6 +3,7 @@ package com.github.rafaelfernandes.delivery.adapter.in.web;
 
 import com.github.rafaelfernandes.delivery.adapter.in.web.response.ResponseError;
 import com.github.rafaelfernandes.delivery.common.exception.ApartmentNotFoundException;
+import com.github.rafaelfernandes.delivery.common.exception.DeliveryNotFoundException;
 import com.github.rafaelfernandes.delivery.common.exception.EmployeeCellphoneExistsException;
 import com.github.rafaelfernandes.delivery.common.exception.EmployeeNotFoundException;
 import jakarta.validation.ValidationException;
@@ -37,6 +38,13 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler({EmployeeNotFoundException.class})
     public ResponseEntity<ResponseError> errorValidation(EmployeeNotFoundException exception){
+        return ResponseEntity
+                .status(HttpStatus.valueOf(exception.getStatus()))
+                .body(new ResponseError(exception.getMessage(), exception.getStatus()));
+    }
+
+    @ExceptionHandler({DeliveryNotFoundException.class})
+    public ResponseEntity<ResponseError> errorValidation(DeliveryNotFoundException exception){
         return ResponseEntity
                 .status(HttpStatus.valueOf(exception.getStatus()))
                 .body(new ResponseError(exception.getMessage(), exception.getStatus()));

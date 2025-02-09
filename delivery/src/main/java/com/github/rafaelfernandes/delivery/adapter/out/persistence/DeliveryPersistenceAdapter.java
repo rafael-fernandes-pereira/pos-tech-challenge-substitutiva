@@ -4,9 +4,12 @@ import com.github.rafaelfernandes.delivery.application.domain.model.Delivery;
 import com.github.rafaelfernandes.delivery.application.domain.model.Resident;
 import com.github.rafaelfernandes.delivery.application.port.out.DeliveryPort;
 import com.github.rafaelfernandes.delivery.common.annotations.PersistenceAdapter;
+import com.github.rafaelfernandes.delivery.common.enums.NotificationStatus;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @PersistenceAdapter
 @AllArgsConstructor
@@ -31,6 +34,28 @@ public class DeliveryPersistenceAdapter implements DeliveryPort {
 
         return deliveries.stream().map(DeliveryMapper::toDomain).toList();
 
+
+    }
+
+    @Override
+    public Optional<Delivery> getById(String deliveryId) {
+        var id = UUID.fromString(deliveryId);
+
+        var delivery = deliveryRepositpory.findById(id);
+
+        return delivery.map(DeliveryMapper::toDomain);
+    }
+
+    @Override
+    public void updateNotificationStatus(String deliveryId, NotificationStatus notificationStatus) {
+
+        var delivery = this.getById(deliveryId);
+
+        var deliveryEntity = DeliveryMapper.toSavedEntity(delivery.get());
+
+        deliveryEntity.setNotificationStatus(notificationStatus.name());
+
+        deliveryRepositpory.save(deliveryEntity);
 
     }
 }

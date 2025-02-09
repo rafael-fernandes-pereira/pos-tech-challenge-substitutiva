@@ -10,6 +10,7 @@ import com.github.rafaelfernandes.delivery.common.annotations.UseCase;
 import com.github.rafaelfernandes.delivery.common.enums.DeliveryStatus;
 import com.github.rafaelfernandes.delivery.common.enums.NotificationStatus;
 import com.github.rafaelfernandes.delivery.common.exception.ApartmentNotFoundException;
+import com.github.rafaelfernandes.delivery.common.exception.DeliveryNotFoundException;
 import com.github.rafaelfernandes.delivery.common.exception.EmployeeNotFoundException;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
@@ -98,5 +99,17 @@ public class ManageDeliveryUseCase implements DeliveryUseCase {
 
         return deliveriesComplete;
 
+    }
+
+    @Override
+    public void updateNotificationStatus(String deliveryId, String notificationStatus) {
+
+        var delivery = deliveryPort.getById(deliveryId);
+
+        if (delivery.isEmpty()) throw new DeliveryNotFoundException();
+
+        var notificationStatusEnum = NotificationStatus.valueOf(notificationStatus);
+
+        deliveryPort.updateNotificationStatus(deliveryId, notificationStatusEnum);
     }
 }

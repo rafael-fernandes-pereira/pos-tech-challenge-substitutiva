@@ -118,5 +118,66 @@ public class DeliveryController {
 
     }
 
+    private void updateNotificationStatus(String deliveryId, String notificationStatus) {
+        useCase.updateNotificationStatus(deliveryId, notificationStatus);
+    }
+
+    @Operation(summary = "Read notification of a delivery")
+    @ApiResponses(value = {
+            @ApiResponse(description = "Success", responseCode = "200"
+            ),
+            @ApiResponse(description = "Business and Internal problems", responseCode = "500", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = ResponseError.class),
+                    examples = @io.swagger.v3.oas.annotations.media.ExampleObject(value = "{\"message\":\"Business and Internal problems\",\"status\":500}")
+            )),
+            @ApiResponse(description = "Authenticate error", responseCode = "401", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = ResponseError.class),
+                    examples = @io.swagger.v3.oas.annotations.media.ExampleObject(value = "{\"message\":\"Authenticate error\",\"status\":401}")
+            ))
+    })
+    @PutMapping(
+            path = "/{deliveryId}/notification/read",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    ResponseEntity<Void> readNotification(
+            @Parameter(description = "Delivery id") @PathVariable String deliveryId
+    ) {
+
+        this.updateNotificationStatus(deliveryId, NotificationStatus.READ.name());
+
+        return ResponseEntity.ok().build();
+
+    }
+
+    @Operation(summary = "Read notification of a delivery")
+    @ApiResponses(value = {
+            @ApiResponse(description = "Success", responseCode = "200"
+            ),
+            @ApiResponse(description = "Business and Internal problems", responseCode = "500", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = ResponseError.class),
+                    examples = @io.swagger.v3.oas.annotations.media.ExampleObject(value = "{\"message\":\"Business and Internal problems\",\"status\":500}")
+            )),
+            @ApiResponse(description = "Authenticate error", responseCode = "401", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = ResponseError.class),
+                    examples = @io.swagger.v3.oas.annotations.media.ExampleObject(value = "{\"message\":\"Authenticate error\",\"status\":401}")
+            ))
+    })
+    @PutMapping(
+            path = "/{deliveryId}/notification/sent",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    ResponseEntity<Void> sentNotification(
+            @Parameter(description = "Delivery id") @PathVariable String deliveryId
+    ) {
+
+        this.updateNotificationStatus(deliveryId, NotificationStatus.SENT.name());
+
+        return ResponseEntity.ok().build();
+
+    }
 
 }
