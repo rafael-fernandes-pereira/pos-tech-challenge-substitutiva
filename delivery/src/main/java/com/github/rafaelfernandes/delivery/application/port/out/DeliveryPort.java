@@ -17,4 +17,6 @@ public interface DeliveryPort {
 
     void updateNotificationStatus(String deliveryId, NotificationStatus notificationStatus);
 
+    void delivered(String deliveryId, String receiverName);
+
 }

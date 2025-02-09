@@ -4,9 +4,11 @@ import com.github.rafaelfernandes.delivery.application.domain.model.Delivery;
 import com.github.rafaelfernandes.delivery.application.domain.model.Resident;
 import com.github.rafaelfernandes.delivery.application.port.out.DeliveryPort;
 import com.github.rafaelfernandes.delivery.common.annotations.PersistenceAdapter;
+import com.github.rafaelfernandes.delivery.common.enums.DeliveryStatus;
 import com.github.rafaelfernandes.delivery.common.enums.NotificationStatus;
 import lombok.AllArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -57,5 +59,21 @@ public class DeliveryPersistenceAdapter implements DeliveryPort {
 
         deliveryRepositpory.save(deliveryEntity);
 
+    }
+
+    @Override
+    public void delivered(String deliveryId, String receiverName) {
+
+        var delivery = this.getById(deliveryId);
+
+        var deliveryEntity = DeliveryMapper.toSavedEntity(delivery.get());
+
+        deliveryEntity.setReceiverName(receiverName);
+
+        deliveryEntity.setDeliveryStatus(DeliveryStatus.DELIVERED.name());
+
+        deliveryEntity.setExitDate(LocalDate.now());
+
+        deliveryRepositpory.save(deliveryEntity);
     }
 }

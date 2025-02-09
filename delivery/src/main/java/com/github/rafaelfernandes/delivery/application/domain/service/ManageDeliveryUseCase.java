@@ -112,4 +112,14 @@ public class ManageDeliveryUseCase implements DeliveryUseCase {
 
         deliveryPort.updateNotificationStatus(deliveryId, notificationStatusEnum);
     }
+
+    @Override
+    public void delivered(String deliveryId, String receiverName) {
+        var delivery = deliveryPort.getById(deliveryId);
+
+        if (delivery.isEmpty()) throw new DeliveryNotFoundException();
+
+        deliveryPort.delivered(deliveryId, receiverName);
+
+    }
 }

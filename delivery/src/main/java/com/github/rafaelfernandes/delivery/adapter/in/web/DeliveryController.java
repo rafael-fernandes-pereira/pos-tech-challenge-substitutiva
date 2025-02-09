@@ -1,5 +1,6 @@
 package com.github.rafaelfernandes.delivery.adapter.in.web;
 
+import com.github.rafaelfernandes.delivery.adapter.in.web.request.DeliveredRequest;
 import com.github.rafaelfernandes.delivery.adapter.in.web.request.DeliveryRequest;
 import com.github.rafaelfernandes.delivery.adapter.in.web.response.DeliveryIdResponse;
 import com.github.rafaelfernandes.delivery.adapter.in.web.response.DeliveryResponse;
@@ -175,6 +176,36 @@ public class DeliveryController {
     ) {
 
         this.updateNotificationStatus(deliveryId, NotificationStatus.SENT.name());
+
+        return ResponseEntity.ok().build();
+
+    }
+
+    @Operation(summary = "Delivered a package")
+    @ApiResponses(value = {
+            @ApiResponse(description = "Success", responseCode = "200"
+            ),
+            @ApiResponse(description = "Business and Internal problems", responseCode = "500", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = ResponseError.class),
+                    examples = @io.swagger.v3.oas.annotations.media.ExampleObject(value = "{\"message\":\"Business and Internal problems\",\"status\":500}")
+            )),
+            @ApiResponse(description = "Authenticate error", responseCode = "401", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = ResponseError.class),
+                    examples = @io.swagger.v3.oas.annotations.media.ExampleObject(value = "{\"message\":\"Authenticate error\",\"status\":401}")
+            ))
+    })
+    @PutMapping(
+            path = "/{deliveryId}/delivered",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    ResponseEntity<Void> delivered(
+            @Parameter(description = "Delivery id") @PathVariable String deliveryId,
+            @Parameter(description = "Receiver name") @RequestBody DeliveredRequest request
+    ) {
+
+        useCase.delivered(deliveryId, request.receiverName());
 
         return ResponseEntity.ok().build();
 
