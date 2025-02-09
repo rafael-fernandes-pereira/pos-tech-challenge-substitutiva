@@ -23,25 +23,27 @@ spring:
           filters:
             - StripPrefix=1
 
-        - id: create_resident
+        - id: resident_create
           uri: lb://RESIDENT-API
           predicates:
-            - Path=/api/resident
-            - Method=POST
-
-        - id: create_employee
-          uri: lb://RESIDENT-API
-          predicates:
-            - Path=/api/employee
-            - Method=POST
+            - Path=/api/resident/**
+            - Method=GET,POST
 
         - id: resident_other_operations
           uri: lb://RESIDENT-API
           predicates:
             - Path=/api/resident/**
-            - Method=GET,PUT,DELETE
+            - Method=PUT,DELETE
           filters:
             - AuthenticatorFilter=RESIDENT
+
+        - id: create_employee
+          uri: lb://EMPLOYEE-API
+          predicates:
+            - Path=/api/employee/**
+            - Method=GET,POST
+
+
 
         - id: resident-swagger
           uri: lb://RESIDENT-API
@@ -54,7 +56,7 @@ spring:
           uri: lb://EMPLOYEE-API
           predicates:
             - Path=/api/employee/**
-            - Method=GET,PUT,DELETE
+            - Method=PUT,DELETE
           filters:
             - AuthenticatorFilter=EMPLOYEE
 
@@ -64,6 +66,12 @@ spring:
             - Path=/employee-api/v3/api-docs
           filters:
             - StripPrefix=1
+
+        - id: register_delivery
+          uri: lb://DELIVERY-API
+          predicates:
+            - Path=/api/delivery/register
+            - Method=POST
 
     discovery:
       locator:

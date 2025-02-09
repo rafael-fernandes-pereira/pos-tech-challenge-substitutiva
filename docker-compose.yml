@@ -22,6 +22,12 @@ services:
     ports:
       - 5434:5432
 
+  delivery-db:
+    <<: *database
+    container_name: delivery_db
+    ports:
+      - 5435:5432
+
 
 networks:
   eureka-network:
