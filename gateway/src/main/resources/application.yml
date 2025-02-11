@@ -10,6 +10,16 @@ spring:
             - Path=/api/user/**
             - Method=POST
 
+        - id: authenticate
+          uri: lb://USER-API
+          predicates:
+            - Path=/api/login
+
+        - id: validate
+          uri: lb://USER-API
+          predicates:
+            - Path=/api/login/validate
+
         - id: resident-api
           uri: lb://RESIDENT-API
           predicates:
@@ -17,65 +27,13 @@ spring:
           filters:
             - AuthenticatorFilter=RESIDENT,EMPLOYEE
 
-        - id: authenticate
-          uri: lb://USER-API
-          predicates:
-            - Path=/api/login
-        - id: validate
-          uri: lb://USER-API
-          predicates:
-            - Path=/api/login/validate
 
-        - id: user-swagger
-          uri: lb://USER-API
-          predicates:
-            - Path=/user-api/v3/api-docs
-          filters:
-            - StripPrefix=1
-
-        - id: resident_create
-          uri: lb://RESIDENT-API
-          predicates:
-            - Path=/api/resident/**
-            - Method=GET,POST
-
-        - id: resident_other_operations
-          uri: lb://RESIDENT-API
-          predicates:
-            - Path=/api/resident/**
-            - Method=PUT,DELETE
-          filters:
-            - AuthenticatorFilter=RESIDENT
-
-        - id: create_employee
+        - id: employee-api
           uri: lb://EMPLOYEE-API
           predicates:
             - Path=/api/employee/**
-            - Method=GET,POST
-
-
-
-        - id: resident-swagger
-          uri: lb://RESIDENT-API
-          predicates:
-            - Path=/resident-api/v3/api-docs
-          filters:
-            - StripPrefix=1
-
-        - id: employee_other_operations
-          uri: lb://EMPLOYEE-API
-          predicates:
-            - Path=/api/employee/**
-            - Method=PUT,DELETE
           filters:
             - AuthenticatorFilter=EMPLOYEE
-
-        - id: employee-swagger
-          uri: lb://EMPLOYEE-API
-          predicates:
-            - Path=/employee-api/v3/api-docs
-          filters:
-            - StripPrefix=1
 
         - id: register_delivery
           uri: lb://DELIVERY-API
@@ -88,6 +46,32 @@ spring:
           predicates:
             - Path=/api/delivery/**
             - Method=GET,PUT
+
+
+        - id: user-swagger
+          uri: lb://USER-API
+          predicates:
+            - Path=/user-api/v3/api-docs
+          filters:
+            - StripPrefix=1
+
+        - id: resident-swagger
+          uri: lb://RESIDENT-API
+          predicates:
+            - Path=/resident-api/v3/api-docs
+          filters:
+            - StripPrefix=1
+
+
+
+        - id: employee-swagger
+          uri: lb://EMPLOYEE-API
+          predicates:
+            - Path=/employee-api/v3/api-docs
+          filters:
+            - StripPrefix=1
+
+
 
     discovery:
       locator:

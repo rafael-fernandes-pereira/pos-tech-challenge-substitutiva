@@ -1,4 +1,4 @@
-package resident.request;
+package employee;
 
 public record EmployeeRequest(
         String name,
