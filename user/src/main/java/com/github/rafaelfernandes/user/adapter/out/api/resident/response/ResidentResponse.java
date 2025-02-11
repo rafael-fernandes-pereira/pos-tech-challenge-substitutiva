@@ -1,4 +1,4 @@
-package com.github.rafaelfernandes.user.adapter.out.api.resident;
+package com.github.rafaelfernandes.user.adapter.out.api.resident.response;
 
 import lombok.Data;
 

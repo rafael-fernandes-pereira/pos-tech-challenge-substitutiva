@@ -1,5 +1,6 @@
 package com.github.rafaelfernandes.user.adapter.out.api.resident;
 
+import com.github.rafaelfernandes.user.adapter.out.api.resident.request.ResidentRequest;
 import com.github.rafaelfernandes.user.application.domain.model.Resident;
 import com.github.rafaelfernandes.user.application.port.out.ResidentPort;
 import com.github.rafaelfernandes.common.annotations.ApiClientAdapter;

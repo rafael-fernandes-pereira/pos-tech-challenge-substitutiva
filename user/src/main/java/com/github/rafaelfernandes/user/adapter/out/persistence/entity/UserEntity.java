@@ -1,4 +1,4 @@
-package com.github.rafaelfernandes.user.adapter.out.persistence;
+package com.github.rafaelfernandes.user.adapter.out.persistence.entity;
 
 import com.github.rafaelfernandes.common.enums.UserType;
 import jakarta.persistence.*;

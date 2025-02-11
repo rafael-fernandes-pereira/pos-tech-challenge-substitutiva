@@ -1,9 +1,8 @@
-package com.github.rafaelfernandes.user.adapter.in.web;
+package com.github.rafaelfernandes.user.adapter.in.web.handler;
 
 import com.github.rafaelfernandes.common.exceptions.UserCellphoneExistsException;
 import com.github.rafaelfernandes.user.adapter.in.web.response.ResponseError;
 import com.github.rafaelfernandes.common.exceptions.ResidentApartmentExistsException;
-import com.github.rafaelfernandes.common.exceptions.ResidentCellphoneExistsException;
 import jakarta.validation.ValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

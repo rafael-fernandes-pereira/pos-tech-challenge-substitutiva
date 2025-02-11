@@ -1,8 +1,8 @@
 package com.github.rafaelfernandes.user.adapter.out.api.employee;
 
 import com.github.rafaelfernandes.common.annotations.ApiClientAdapter;
+import com.github.rafaelfernandes.user.adapter.out.api.employee.request.EmployeeRequest;
 import com.github.rafaelfernandes.user.application.domain.model.Employee;
-import com.github.rafaelfernandes.user.application.domain.model.Resident;
 import com.github.rafaelfernandes.user.application.port.out.EmployeePort;
 import lombok.RequiredArgsConstructor;
 

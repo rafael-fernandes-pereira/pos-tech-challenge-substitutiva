@@ -1,4 +1,4 @@
-package com.github.rafaelfernandes.login.adapter.in.web;
+package com.github.rafaelfernandes.login.adapter.in.web.handler;
 
 import com.github.rafaelfernandes.common.exceptions.InvalidTokenException;
 import com.github.rafaelfernandes.common.exceptions.UnauthorizedException;

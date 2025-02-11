@@ -1,4 +1,4 @@
-package com.github.rafaelfernandes.user.adapter.out.api.employee;
+package com.github.rafaelfernandes.user.adapter.out.api.employee.response;
 
 
 import com.github.rafaelfernandes.user.application.domain.model.Employee;
