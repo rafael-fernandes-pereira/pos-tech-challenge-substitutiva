@@ -28,6 +28,10 @@ services:
     ports:
       - 5435:5432
 
+  eureka-service:
+    build: ./eureka
+    container_name: eureka_service
+
   rabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: rabbitmq

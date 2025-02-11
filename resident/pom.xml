@@ -11,21 +11,8 @@
 	<groupId>com.github.rafaelfernandes</groupId>
 	<artifactId>resident</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Resident CRUD</name>
+	<name>Resident API</name>
 	<description>Crud of Residents</description>
-	<url/>
-	<licenses>
-		<license/>
-	</licenses>
-	<developers>
-		<developer/>
-	</developers>
-	<scm>
-		<connection/>
-		<developerConnection/>
-		<tag/>
-		<url/>
-	</scm>
 
 	<properties>
 		<maven.compiler.source>17</maven.compiler.source>
