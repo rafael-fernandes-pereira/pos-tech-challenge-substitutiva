@@ -2,7 +2,6 @@ package com.github.rafaelfernandes.employee.application.domain.model;
 import com.github.rafaelfernandes.employee.common.validation.ValidationContactNumber;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import org.hibernate.validator.constraints.Length;

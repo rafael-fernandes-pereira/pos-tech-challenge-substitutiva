@@ -15,19 +15,20 @@ import java.util.UUID;
 public class EmployeePersistenceAdapter implements ManageEmployeePort {
 
     private final EmployeeRepository employeeRepository;
+    private final EmployeeMapper employeeMapper;
 
     @Override
     public Employee save(Employee employee) {
-        var entityToSave = EmployeeMapper.toJpaEntity(employee);
+        var entityToSave = employeeMapper.toJpaEntity(employee);
 
         var saved = employeeRepository.save(entityToSave);
 
-        return EmployeeMapper.toDomain(saved);
+        return employeeMapper.toDomain(saved);
     }
 
     @Override
     public Page<Employee> getAll(Pageable pageable) {
-        return employeeRepository.findAll(pageable).map(EmployeeMapper::toDomain);
+        return employeeRepository.findAll(pageable).map(employeeMapper::toDomain);
     }
 
     @Override
@@ -36,25 +37,25 @@ public class EmployeePersistenceAdapter implements ManageEmployeePort {
 
         var residentEntity = employeeRepository.findById(id);
 
-        return residentEntity.map(EmployeeMapper::toDomain);
+        return residentEntity.map(employeeMapper::toDomain);
     }
 
     @Override
     public void delete(Employee employee) {
-        var entityToDelete = EmployeeMapper.toJpaEntity(employee);
+        var entityToDelete = employeeMapper.toJpaEntity(employee);
 
         employeeRepository.delete(entityToDelete);
     }
 
     @Override
     public void update(Employee.EmployeeId id, Employee employee) {
-        var entityToUpdate = EmployeeMapper.toJpaEntity(employee);
+        var entityToUpdate = employeeMapper.toJpaEntity(employee);
 
         employeeRepository.save(entityToUpdate);
     }
 
     @Override
     public Optional<Employee> findByCellphone(String cellphone) {
-        return employeeRepository.findByCellphone(cellphone).map(EmployeeMapper::toDomain);
+        return employeeRepository.findByCellphone(cellphone).map(employeeMapper::toDomain);
     }
 }
