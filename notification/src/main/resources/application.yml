@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: NOTIFICATION-API
+  rabbitmq:
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASSWORD}
+
+rabbitmq:
+  queue:
+    name: ${RABBITMQ_QUEUE_NAME}
+  exchange:
+    name: ${RABBITMQ_EXCHANGE_NAME}
+    routingKey: ${RABBITMQ_ROUTING_KEY}
+
+delivery:
+  url: ${DELIVERY_URL}

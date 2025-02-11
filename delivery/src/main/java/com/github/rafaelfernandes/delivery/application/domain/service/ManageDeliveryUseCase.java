@@ -25,6 +25,7 @@ public class ManageDeliveryUseCase implements DeliveryUseCase {
     private final ResidentPort residentPort;
     private final EmployeePort employeePort;
     private final DeliveryPort deliveryPort;
+    private final NotificationPort notificationPort;
 
 
     @Override
@@ -47,8 +48,9 @@ public class ManageDeliveryUseCase implements DeliveryUseCase {
 
         var deliverySaved =  deliveryPort.save(delivery);
 
-        return deliverySaved;
+        notificationPort.notifyPackge(deliverySaved.id());
 
+        return deliverySaved;
 
 
     }
@@ -104,9 +106,7 @@ public class ManageDeliveryUseCase implements DeliveryUseCase {
     @Override
     public void updateNotificationStatus(String deliveryId, String notificationStatus) {
 
-        var delivery = deliveryPort.getById(deliveryId);
-
-        if (delivery.isEmpty()) throw new DeliveryNotFoundException();
+        this.getById(deliveryId);
 
         var notificationStatusEnum = NotificationStatus.valueOf(notificationStatus);
 
@@ -115,11 +115,38 @@ public class ManageDeliveryUseCase implements DeliveryUseCase {
 
     @Override
     public void delivered(String deliveryId, String receiverName) {
+
+        this.getById(deliveryId);
+
+        deliveryPort.delivered(deliveryId, receiverName);
+
+    }
+
+    @Override
+    public Delivery getById(String deliveryId) {
         var delivery = deliveryPort.getById(deliveryId);
 
         if (delivery.isEmpty()) throw new DeliveryNotFoundException();
 
-        deliveryPort.delivered(deliveryId, receiverName);
+        var resident = residentPort.getById(delivery.get().getResident().residentId().id());
 
+        if (resident.isEmpty()) throw new ApartmentNotFoundException();
+
+        var employee = employeePort.findById(delivery.get().getEmployee().employeeId().id());
+
+        if (employee.isEmpty()) throw new EmployeeNotFoundException();
+
+        return Delivery.of(
+                deliveryId,
+                resident.get(),
+                employee.get(),
+                delivery.get().getDestinationName(),
+                delivery.get().getPackageDescription(),
+                delivery.get().getDeliveryStatus(),
+                delivery.get().getNotificationStatus(),
+                delivery.get().getEnterDate(),
+                delivery.get().getExitDate(),
+                delivery.get().getReceiverName()
+        );
     }
 }

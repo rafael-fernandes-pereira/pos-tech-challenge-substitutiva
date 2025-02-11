@@ -27,4 +27,17 @@ public class ResidentCallAPIAdapter implements ResidentPort {
                 residentResponse.getApartment()
         ));
     }
+
+    @Override
+    public Optional<Resident> getById(String residentId) {
+        var resident = residentApiClient.findById(residentId);
+
+        return resident.map(residentResponse -> new Resident(
+                new Resident.ResidentId(residentResponse.getId()),
+                residentResponse.getName(),
+                residentResponse.getDocument(),
+                residentResponse.getCellphone(),
+                residentResponse.getApartment()
+        ));
+    }
 }

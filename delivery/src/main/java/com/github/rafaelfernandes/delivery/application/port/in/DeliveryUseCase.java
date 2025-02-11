@@ -13,4 +13,6 @@ public interface DeliveryUseCase {
     void updateNotificationStatus(String deliveryId, String notificationStatus);
 
     void delivered(String deliveryId, String receiverName);
+
+    Delivery getById(String deliveryId);
 }

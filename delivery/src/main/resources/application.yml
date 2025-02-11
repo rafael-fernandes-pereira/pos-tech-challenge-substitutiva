@@ -6,6 +6,10 @@ spring:
     password: ${SPRING_DATASOURCE_PASSWORD}
   application:
     name: DELIVERY-API
+  rabbitmq:
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASSWORD}
+
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     properties:
@@ -44,3 +48,10 @@ resident:
   url: ${RESIDENT_URL}
 employee:
   url: ${EMPLOYEE_URL}
+
+rabbitmq:
+  queue:
+    name: ${RABBITMQ_QUEUE_NAME}
+  exchange:
+    name: ${RABBITMQ_EXCHANGE_NAME}
+    routingKey: ${RABBITMQ_ROUTING_KEY}

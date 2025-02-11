@@ -8,7 +8,6 @@ import com.github.rafaelfernandes.delivery.common.enums.DeliveryStatus;
 import com.github.rafaelfernandes.delivery.common.enums.NotificationStatus;
 import lombok.AllArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;

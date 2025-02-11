@@ -3,6 +3,7 @@ package com.github.rafaelfernandes.delivery.adapter.in.web;
 import com.github.rafaelfernandes.delivery.adapter.in.web.request.DeliveredRequest;
 import com.github.rafaelfernandes.delivery.adapter.in.web.request.DeliveryRequest;
 import com.github.rafaelfernandes.delivery.adapter.in.web.response.DeliveryIdResponse;
+import com.github.rafaelfernandes.delivery.adapter.in.web.response.DeliveryDataResponse;
 import com.github.rafaelfernandes.delivery.adapter.in.web.response.DeliveryResponse;
 import com.github.rafaelfernandes.delivery.adapter.in.web.response.ResponseError;
 import com.github.rafaelfernandes.delivery.application.port.in.DeliveryUseCase;
@@ -152,7 +153,7 @@ public class DeliveryController {
 
     }
 
-    @Operation(summary = "Read notification of a delivery")
+    @Operation(summary = "Sent notification of a delivery")
     @ApiResponses(value = {
             @ApiResponse(description = "Success", responseCode = "200"
             ),
@@ -208,6 +209,42 @@ public class DeliveryController {
         useCase.delivered(deliveryId, request.receiverName());
 
         return ResponseEntity.ok().build();
+
+    }
+
+    @Operation(summary = "Get by Delivery Id")
+    @ApiResponses(value = {
+            @ApiResponse(description = "Success", responseCode = "200", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = DeliveryDataResponse.class)
+            )),
+            @ApiResponse(description = "Business and Internal problems", responseCode = "500", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = ResponseError.class),
+                    examples = @io.swagger.v3.oas.annotations.media.ExampleObject(value = "{\"message\":\"Business and Internal problems\",\"status\":500}")
+            )),
+            @ApiResponse(description = "Authenticate error", responseCode = "401", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = ResponseError.class),
+                    examples = @io.swagger.v3.oas.annotations.media.ExampleObject(value = "{\"message\":\"Authenticate error\",\"status\":401}")
+            ))
+    })
+    @GetMapping(
+            path = "/{deliveryId}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    ResponseEntity<DeliveryDataResponse> getById(
+            @Parameter(description = "Delivery id") @PathVariable String deliveryId
+    ) {
+
+        var delivery = useCase.getById(deliveryId);
+
+        return ResponseEntity.ok(new DeliveryDataResponse(
+                delivery.getDestinationName(),
+                delivery.getPackageDescription(),
+                delivery.getResident().name(),
+                delivery.getResident().cellphone()
+        ));
 
     }
 

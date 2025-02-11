@@ -19,7 +19,7 @@ public interface ResidentApiClient {
     Optional<ResidentResponse> findByApartment(@PathVariable Integer apartment);
 
     @GetMapping("/{id}")
-    ResidentResponse findById(@PathVariable String id);
+    Optional<ResidentResponse> findById(@PathVariable String id);
 
     @PostMapping("")
     ResidentIdResponse create(@RequestBody ResidentRequest residentRequest);

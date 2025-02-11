@@ -8,4 +8,6 @@ public interface ResidentPort {
 
     Optional<Resident> getByApartment(Integer apartment);
 
+    Optional<Resident> getById(String residentId);
+
 }
