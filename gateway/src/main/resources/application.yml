@@ -4,6 +4,19 @@ spring:
   cloud:
     gateway:
       routes:
+        - id: create-users
+          uri: lb://USER-API
+          predicates:
+            - Path=/api/user/**
+            - Method=POST
+
+        - id: resident-api
+          uri: lb://RESIDENT-API
+          predicates:
+            - Path=/api/resident/**
+          filters:
+            - AuthenticatorFilter=RESIDENT,EMPLOYEE
+
         - id: authenticate
           uri: lb://USER-API
           predicates:
@@ -12,10 +25,7 @@ spring:
           uri: lb://USER-API
           predicates:
             - Path=/api/login/validate
-        - id: create-users
-          uri: lb://USER-API
-          predicates:
-            - Path=/api/user/**
+
         - id: user-swagger
           uri: lb://USER-API
           predicates:

@@ -11,6 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 @Component
 public class ValidateTokenService {
 
@@ -20,23 +24,31 @@ public class ValidateTokenService {
     @Value("${login.api}")
     private String loginApi;
 
-    public boolean validate(String token, String role) {
+    public boolean validate(String token, List<String> roles) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
 
-        var request = new TokenValidateRequest(token, role);
+        for (String role: roles) {
 
-        HttpEntity<TokenValidateRequest> requestEntity = new HttpEntity<>(request, headers);
+            var request = new TokenValidateRequest(token, role);
 
-        ResponseEntity<String> response = restTemplate.exchange(
-                loginApi + "/validate",
-                HttpMethod.POST,
-                requestEntity,
-                String.class
-        );
+            HttpEntity<TokenValidateRequest> requestEntity = new HttpEntity<>(request, headers);
 
-        return response.getStatusCode().is2xxSuccessful();
+            ResponseEntity<String> response = restTemplate.exchange(
+                    loginApi + "/validate",
+                    HttpMethod.POST,
+                    requestEntity,
+                    String.class
+            );
+
+            if(response.getStatusCode().is2xxSuccessful()) return true;
+
+        }
+
+        return false;
+
+
     }
 
 }

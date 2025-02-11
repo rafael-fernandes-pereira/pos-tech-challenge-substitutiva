@@ -28,57 +28,71 @@ services:
     ports:
       - 5435:5432
 
-  eureka-service:
-    build: ./eureka
-    container_name: eureka_service
-    ports:
-      - 8761:8761
+#  eureka-service:
+#    build: ./eureka
+#    container_name: eureka_service
+#    ports:
+#      - 8761:8761
+#
+#  resident-api:
+#    build: ./resident
+#    container_name: resident_api
+#    ports:
+#      - 8081:8081
+#    environment:
+#      EUREKA_SERVICE: http://eureka-service:8761/eureka
+#      SPRING_DATASOURCE_PASSWORD: mypassword
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://resident-db:5432/mydatabase
+#      SPRING_DATASOURCE_USERNAME: myuser
+#    depends_on:
+#      - resident-db
+#      - eureka-service
+#
+#  employee-api:
+#    build: ./employee
+#    container_name: employee_api
+#    ports:
+#      - 8082:8082
+#    environment:
+#      EUREKA_SERVICE: http://eureka-service:8761/eureka
+#      SPRING_DATASOURCE_PASSWORD: mypassword
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://employee-db:5432/mydatabase
+#      SPRING_DATASOURCE_USERNAME: myuser
+#    depends_on:
+#      - employee-db
+#      - eureka-service
+#
+#  user-api:
+#    build: ./user
+#    container_name: user_api
+#    ports:
+#      - 8083:8083
+#    environment:
+#      EUREKA_SERVICE: http://eureka-service:8761/eureka
+#      SPRING_DATASOURCE_PASSWORD: mypassword
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://user-db:5432/mydatabase
+#      SPRING_DATASOURCE_USERNAME: myuser
+#      RESIDENT_URL: http://resident-api:8081/api/resident
+#      EMPLOYEE_URL: http://employee-api:8082/api/employee
+#    depends_on:
+#      - user-db
+#      - eureka-service
+#      - resident-api
+#      - employee-api
 
-  resident-api:
-    build: ./resident
-    container_name: resident_api
-    ports:
-      - 8081:8081
-    environment:
-      EUREKA_SERVICE: http://eureka-service:8761/eureka
-      SPRING_DATASOURCE_PASSWORD: mypassword
-      SPRING_DATASOURCE_URL: jdbc:postgresql://resident-db:5432/mydatabase
-      SPRING_DATASOURCE_USERNAME: myuser
-    depends_on:
-      - resident-db
-      - eureka-service
-
-  employee-api:
-    build: ./employee
-    container_name: employee_api
-    ports:
-      - 8082:8082
-    environment:
-      EUREKA_SERVICE: http://eureka-service:8761/eureka
-      SPRING_DATASOURCE_PASSWORD: mypassword
-      SPRING_DATASOURCE_URL: jdbc:postgresql://employee-db:5432/mydatabase
-      SPRING_DATASOURCE_USERNAME: myuser
-    depends_on:
-      - employee-db
-      - eureka-service
-
-  user-api:
-    build: ./user
-    container_name: user_api
-    ports:
-      - 8083:8083
-    environment:
-      EUREKA_SERVICE: http://eureka-service:8761/eureka
-      SPRING_DATASOURCE_PASSWORD: mypassword
-      SPRING_DATASOURCE_URL: jdbc:postgresql://user-db:5432/mydatabase
-      SPRING_DATASOURCE_USERNAME: myuser
-      RESIDENT_URL: http://resident-api:8081/api/resident
-      EMPLOYEE_URL: http://employee-api:8082/api/employee
-    depends_on:
-      - user-db
-      - eureka-service
-      - resident-api
-      - employee-api
+#  gateway-api:
+#    build: ./gateway
+#    container_name: gateway_api
+#    ports:
+#      - 8080:8080
+#    depends_on:
+#      - eureka-service
+#      - resident-api
+#      - employee-api
+#      - user-api
+#    environment:
+#        EUREKA_SERVICE: http://eureka-service:8761/eureka
+#        LOGIN_API: http://user-api:8083/api/login
 
   rabbitmq:
     image: rabbitmq:3-management-alpine

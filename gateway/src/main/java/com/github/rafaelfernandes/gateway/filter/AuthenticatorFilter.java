@@ -52,7 +52,9 @@ public class AuthenticatorFilter extends AbstractGatewayFilterFactory<Authentica
 
                 try {
 
-                    if (!validateToken.validate(token, config.getRole())) {
+                    var roles =  Arrays.asList(config.getRole().split(","));
+
+                    if (!validateToken.validate(token, roles)) {
                         throw new UnauthorizedException(HttpStatus.UNAUTHORIZED.value(), "Unauthorized");
                     }
 
