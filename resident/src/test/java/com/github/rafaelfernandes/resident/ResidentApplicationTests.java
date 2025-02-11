@@ -6,7 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class ResidentCrudApplicationTests {
+class ResidentApplicationTests {
 
 	@Test
 	void contextLoads() {

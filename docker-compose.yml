@@ -31,6 +31,22 @@ services:
   eureka-service:
     build: ./eureka
     container_name: eureka_service
+    ports:
+      - 8761:8761
+
+  resident-api:
+    build: ./resident
+    container_name: resident_api
+    ports:
+      - 8081:8081
+    environment:
+      EUREKA_SERVICE: http://eureka-service:8761/eureka
+      SPRING_DATASOURCE_PASSWORD: mypassword
+      SPRING_DATASOURCE_URL: jdbc:postgresql://resident-db:5432/mydatabase
+      SPRING_DATASOURCE_USERNAME: myuser
+    depends_on:
+      - resident-db
+      - eureka-service
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
