@@ -1,4 +1,4 @@
-package com.github.rafaelfernandes.delivery.adapter.out.persistence;
+package com.github.rafaelfernandes.delivery.adapter.out.persistence.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,7 +7,6 @@ import jakarta.persistence.Table;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 

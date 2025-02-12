@@ -1,8 +1,8 @@
-package com.github.rafaelfernandes.delivery.adapter.out.api.employee;
+package com.github.rafaelfernandes.delivery.adapter.out.api.resident.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-public record EmployeeRequest(
+public record ResidentRequest(
         @Schema(minimum = "3", maximum = "100")
         String name,
 
@@ -10,7 +10,11 @@ public record EmployeeRequest(
         String document,
 
         @Schema(minimum = "17", maximum = "17")
-        String cellphone
+        String cellphone,
+
+        @Schema(implementation = Integer.class)
+        Integer apartment
+
 
 ) {
 }

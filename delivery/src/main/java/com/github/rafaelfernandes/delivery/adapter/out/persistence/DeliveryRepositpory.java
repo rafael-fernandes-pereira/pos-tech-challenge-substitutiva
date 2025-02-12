@@ -1,5 +1,6 @@
 package com.github.rafaelfernandes.delivery.adapter.out.persistence;
 
+import com.github.rafaelfernandes.delivery.adapter.out.persistence.entity.DeliveryJpaEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

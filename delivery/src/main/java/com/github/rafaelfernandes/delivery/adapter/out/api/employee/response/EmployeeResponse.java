@@ -1,8 +1,15 @@
-package com.github.rafaelfernandes.delivery.adapter.out.api.resident;
+package com.github.rafaelfernandes.delivery.adapter.out.api.employee.response;
+
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-public record ResidentRequest(
+import java.util.UUID;
+
+public record EmployeeResponse(
+
+        @Schema(implementation = UUID.class)
+        String id,
+
         @Schema(minimum = "3", maximum = "100")
         String name,
 
@@ -10,11 +17,6 @@ public record ResidentRequest(
         String document,
 
         @Schema(minimum = "17", maximum = "17")
-        String cellphone,
-
-        @Schema(implementation = Integer.class)
-        Integer apartment
-
-
+        String cellphone
 ) {
 }

@@ -1,4 +1,4 @@
-package com.github.rafaelfernandes.delivery.adapter.in.web;
+package com.github.rafaelfernandes.delivery.adapter.in.web.handler;
 
 
 import com.github.rafaelfernandes.delivery.adapter.in.web.response.ResponseError;

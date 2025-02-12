@@ -1,15 +1,8 @@
-package com.github.rafaelfernandes.delivery.adapter.out.api.employee;
-
+package com.github.rafaelfernandes.delivery.adapter.out.api.employee.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import java.util.UUID;
-
-public record EmployeeResponse(
-
-        @Schema(implementation = UUID.class)
-        String id,
-
+public record EmployeeRequest(
         @Schema(minimum = "3", maximum = "100")
         String name,
 
@@ -18,5 +11,6 @@ public record EmployeeResponse(
 
         @Schema(minimum = "17", maximum = "17")
         String cellphone
+
 ) {
 }

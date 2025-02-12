@@ -12,7 +12,7 @@
     <groupId>com.github.rafaelfernandes</groupId>
     <artifactId>user</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>User API</name>
+    <name>01 - User API</name>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

@@ -14,6 +14,7 @@
     <groupId>com.github.rafaelfernandes</groupId>
     <artifactId>delivery</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <name>04 - Delivery API</name>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -155,6 +156,17 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.11</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/request/**</exclude>
+                        <exclude>**/response/**</exclude>
+                        <exclude>**/config/**</exclude>
+                        <exclude>**/common/**</exclude>
+                        <exclude>**/security/**</exclude>
+                        <exclude>**/entity/**</exclude>
+                        <exclude>**/handler/**</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -168,6 +180,7 @@
                             <goal>report</goal>
                         </goals>
                     </execution>
+
                 </executions>
             </plugin>
 

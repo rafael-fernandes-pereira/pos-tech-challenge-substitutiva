@@ -11,7 +11,7 @@
 	<groupId>com.github.rafaelfernandes</groupId>
 	<artifactId>resident</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Resident API</name>
+	<name>02 - Resident API</name>
 	<description>Crud of Residents</description>
 
 	<properties>

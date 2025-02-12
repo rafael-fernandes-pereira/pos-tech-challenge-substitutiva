@@ -11,7 +11,7 @@
 	<groupId>com.github.rafaelfernandes</groupId>
 	<artifactId>gateway</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>gateway</name>
+	<name>Gateway</name>
 	<description>Gateway</description>
 	<url/>
 	<licenses>

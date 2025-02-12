@@ -1,9 +1,9 @@
 package com.github.rafaelfernandes.delivery.adapter.out.persistence;
 
+import com.github.rafaelfernandes.delivery.adapter.out.persistence.entity.DeliveryJpaEntity;
 import com.github.rafaelfernandes.delivery.application.domain.model.Delivery;
 import com.github.rafaelfernandes.delivery.application.domain.model.Employee;
 import com.github.rafaelfernandes.delivery.application.domain.model.Resident;
-import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
@@ -67,6 +67,8 @@ public class DeliveryMapper {
         );
 
     }
+
+
 
 
 }

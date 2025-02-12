@@ -1,4 +1,4 @@
-package com.github.rafaelfernandes.delivery.adapter.out.api.resident;
+package com.github.rafaelfernandes.delivery.adapter.out.api.resident.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

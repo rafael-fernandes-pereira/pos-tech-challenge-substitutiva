@@ -1,4 +1,4 @@
-package com.github.rafaelfernandes.delivery.adapter.out.api.employee;
+package com.github.rafaelfernandes.delivery.adapter.out.api.employee.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

@@ -1,5 +1,8 @@
 package com.github.rafaelfernandes.delivery.adapter.out.api.resident;
 
+import com.github.rafaelfernandes.delivery.adapter.out.api.resident.request.ResidentRequest;
+import com.github.rafaelfernandes.delivery.adapter.out.api.resident.response.ResidentIdResponse;
+import com.github.rafaelfernandes.delivery.adapter.out.api.resident.response.ResidentResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

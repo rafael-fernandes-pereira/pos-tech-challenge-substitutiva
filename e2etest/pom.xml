@@ -7,6 +7,7 @@
     <groupId>com.github.rafaelfernandes</groupId>
     <artifactId>e2etest</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <name>06 - End to End Tests</name>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
