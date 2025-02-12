@@ -27,7 +27,6 @@ spring:
           filters:
             - AuthenticatorFilter=RESIDENT,EMPLOYEE
 
-
         - id: employee-api
           uri: lb://EMPLOYEE-API
           predicates:
@@ -35,17 +34,37 @@ spring:
           filters:
             - AuthenticatorFilter=EMPLOYEE
 
-        - id: register_delivery
+        - id: register-delivery
           uri: lb://DELIVERY-API
           predicates:
             - Path=/api/delivery/register
             - Method=POST
+          filters:
+            - AuthenticatorFilter=EMPLOYEE
 
-        - id: delivery_get
+        - id: delivered-package
+          uri: lb://DELIVERY-API
+          predicates:
+            - Path=/api/delivery/{id}/delivered
+            - Method=PUT
+          filters:
+            - AuthenticatorFilter=EMPLOYEE
+
+        - id: read-notification
+          uri: lb://DELIVERY-API
+          predicates:
+            - Path=/api/delivery/{id}/notification/read
+            - Method=PUT
+          filters:
+            - AuthenticatorFilter=RESIDENT
+
+        - id: delivery-get
           uri: lb://DELIVERY-API
           predicates:
             - Path=/api/delivery/**
-            - Method=GET,PUT
+            - Method=GET
+          filters:
+            - AuthenticatorFilter=EMPLOYEE,RESIDENT
 
 
         - id: user-swagger
@@ -71,7 +90,12 @@ spring:
           filters:
             - StripPrefix=1
 
-
+        - id: delivery-swagger
+          uri: lb://DELIVERY-API
+          predicates:
+            - Path=/delivery-api/v3/api-docs
+          filters:
+            - StripPrefix=1
 
     discovery:
       locator:
@@ -119,3 +143,6 @@ springdoc:
       - url: /employee-api/v3/api-docs
         name: Employee API Service
         primaryName: Employee API Service
+      - url: /delivery-api/v3/api-docs
+        name: Delivery API Service
+        primaryName: Delivery API Service

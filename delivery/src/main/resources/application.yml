@@ -32,17 +32,9 @@ eureka:
     lease-expiration-duration-in-seconds: 10
     prefer-ip-address: true
 
-openapi:
-  service:
-    title: DELIVERY-API Doc
-    version: 1.0.0
-    url: http://localhost:8080
 
-springdoc:
-  swagger-ui:
-    path: /delivery-api/swagger-ui.html
-  api-docs:
-    path: /delivery-api/v3/api-docs
+
+
 
 resident:
   url: ${RESIDENT_URL}
@@ -55,3 +47,15 @@ rabbitmq:
   exchange:
     name: ${RABBITMQ_EXCHANGE_NAME}
     routingKey: ${RABBITMQ_ROUTING_KEY}
+
+openapi:
+  service:
+    title: DELIVERY-API Doc
+    version: 1.0.0
+    url: http://localhost:8080
+
+springdoc:
+  swagger-ui:
+    path: /delivery-api/swagger-ui.html
+  api-docs:
+    path: /delivery-api/v3/api-docs

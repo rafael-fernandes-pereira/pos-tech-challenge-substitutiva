@@ -29,6 +29,7 @@ public class GatewayApplication {
 				.route(r -> r.path("/user-api/v3/api-docs").and().method(HttpMethod.GET).uri("lb://USER-API"))
 				.route(r -> r.path("/resident-api/v3/api-docs").and().method(HttpMethod.GET).uri("lb://RESIDENT-API"))
 				.route(r -> r.path("/employee-api/v3/api-docs").and().method(HttpMethod.GET).uri("lb://EMPLOYEE-API"))
+				.route(r -> r.path("/delivery-api/v3/api-docs").and().method(HttpMethod.GET).uri("lb://DELIVERY-API"))
 
 				.build();
 	}
