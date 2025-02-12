@@ -46,6 +46,8 @@ services:
     container_name: notification_broker
     environment:
       DELIVERY_URL: http://delivery-api:8084/api/delivery
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
       RABBITMQ_USERNAME: guest
       RABBITMQ_PASSWORD: guest
       RABBITMQ_EXCHANGE_NAME: notification-exchange
@@ -110,10 +112,12 @@ services:
       SPRING_DATASOURCE_PASSWORD: mypassword
       SPRING_DATASOURCE_URL: jdbc:postgresql://delivery-db:5432/mydatabase
       SPRING_DATASOURCE_USERNAME: myuser
-      RABBITMQ_USERNAME: guest
-      RABBITMQ_PASSWORD: guest
       RESIDENT_URL: http://resident-api:8081/api/resident
       EMPLOYEE_URL: http://employee-api:8082/api/employee
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USERNAME: guest
+      RABBITMQ_PASSWORD: guest
       RABBITMQ_QUEUE_NAME: notification-queue
       RABBITMQ_EXCHANGE_NAME: notification-exchange
       RABBITMQ_ROUTING_KEY: myRoutingKey.messages
@@ -123,6 +127,7 @@ services:
       - employee-api
       - notification-broker
       - eureka-service
+      - rabbitmq
 
 
   gateway-api:
