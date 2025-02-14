@@ -6,6 +6,7 @@ public record UserCreatedResponse(
         @Schema(minimum = "17", maximum = "17")
         String cellphone,
 
+        @Schema(implementation = String.class, example = "aA@123456")
         String password
 ) {
 }

@@ -1,5 +1,6 @@
 package com.github.rafaelfernandes.resident.adapter.out.persistence;
 
+import com.github.rafaelfernandes.resident.adapter.out.persistence.entity.ResidentJpaEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

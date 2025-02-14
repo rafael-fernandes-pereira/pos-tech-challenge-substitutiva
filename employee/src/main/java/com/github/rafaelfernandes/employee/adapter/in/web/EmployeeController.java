@@ -23,7 +23,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @WebAdapter
@@ -40,6 +39,11 @@ public class EmployeeController {
             @ApiResponse(description = "Success", responseCode = "200", content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                     schema = @Schema(implementation = EmployeeIdResponse.class)
+            )),
+            @ApiResponse(description = "Employee with cellphone has already been exists", responseCode = "409", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = ResponseError.class),
+                    examples = @io.swagger.v3.oas.annotations.media.ExampleObject(value = "{\"message\":\"Employee with cellphone +99 99 99999-9999 already exists\",\"status\":409}")
             )),
             @ApiResponse(description = "Business and Internal problems", responseCode = "500", content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
@@ -74,7 +78,7 @@ public class EmployeeController {
     @ApiResponses(value = {
             @ApiResponse(description = "Success", responseCode = "200", content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = @Schema(implementation = EmployeeResponse[].class)
+                    schema = @Schema(implementation = Page.class)
             )),
             @ApiResponse(description = "Business and Internal problems", responseCode = "500", content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
@@ -91,13 +95,15 @@ public class EmployeeController {
             path = "",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    ResponseEntity<Page<EmployeeResponse>> getAll(Pageable pageable) {
+    ResponseEntity<Page<EmployeeResponse>> getAll(
+            @Parameter(description = "Pageable data", required = true, schema = @Schema(implementation = Pageable.class))
+            Pageable pageable) {
 
-        var Employees = useCase.getAll(pageable);
+        var employees = useCase.getAll(pageable);
 
-        var EmployeesResponse = Employees.map(EmployeeResponse::fromDomain).stream().toList();
+        var employeesResponse = employees.map(EmployeeResponse::fromDomain).stream().toList();
 
-        Page<EmployeeResponse> page = new PageImpl<>(EmployeesResponse, pageable, Employees.getTotalElements());
+        Page<EmployeeResponse> page = new PageImpl<>(employeesResponse, pageable, employees.getTotalElements());
 
         return ResponseEntity.status(HttpStatus.OK).body(page);
     }
@@ -127,11 +133,14 @@ public class EmployeeController {
             path = "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    ResponseEntity<EmployeeResponse> getById(@PathVariable String id) {
+    ResponseEntity<EmployeeResponse> getById(
+            @Parameter(description = "Employee id", required = true, schema = @Schema(implementation = UUID.class), example = "123e4567-e89b-12d3-a456-426614174000")
+            @PathVariable String id
+    ) {
 
-        var Employee = useCase.findById(id);
+        var employee = useCase.findById(id);
 
-        var response = EmployeeResponse.fromDomain(Employee);
+        var response = EmployeeResponse.fromDomain(employee);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
@@ -141,8 +150,7 @@ public class EmployeeController {
     @Operation(summary = "Delete Employee by ID")
     @ApiResponses(value = {
             @ApiResponse(description = "Success", responseCode = "200", content = @Content(
-                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = @Schema(implementation = String.class)
+                    mediaType = MediaType.APPLICATION_JSON_VALUE
             )),
             @ApiResponse(description = "Business and Internal problems", responseCode = "500", content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
@@ -163,16 +171,18 @@ public class EmployeeController {
             path = "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    ResponseEntity<String> deleteById(@PathVariable String id) {
+    ResponseEntity<Void> deleteById(
+            @Parameter(description = "Employee id", required = true, schema = @Schema(implementation = UUID.class), example = "123e4567-e89b-12d3-a456-426614174000")
+            @PathVariable String id
+    ) {
         useCase.delete(id);
-        return ResponseEntity.status(HttpStatus.OK).body("Employee deleted successfully");
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @Operation(summary = "Update Employee by ID")
     @ApiResponses(value = {
             @ApiResponse(description = "Success", responseCode = "200", content = @Content(
-                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = @Schema(implementation = EmployeeResponse.class)
+                    mediaType = MediaType.APPLICATION_JSON_VALUE
             )),
             @ApiResponse(description = "Business and Internal problems", responseCode = "500", content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
@@ -193,7 +203,10 @@ public class EmployeeController {
             path = "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    ResponseEntity<String> updateById(@PathVariable String id, @RequestBody EmployeeRequest request) {
+    ResponseEntity<Void> updateById(
+            @Parameter(description = "Employee id", required = true, schema = @Schema(implementation = UUID.class), example = "123e4567-e89b-12d3-a456-426614174000")
+            @PathVariable String id,
+            @RequestBody EmployeeRequest request) {
 
         var employee = useCase.findById(id);
 
@@ -205,7 +218,7 @@ public class EmployeeController {
 
         useCase.update(employee.getEmployeeId(), employeeModel);
 
-        return ResponseEntity.status(HttpStatus.OK).body("Employee updated successfully");
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
 
@@ -234,7 +247,9 @@ public class EmployeeController {
             path = "/cellphone/{cellphone}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    ResponseEntity<EmployeeResponse> getByCellphone(@Parameter @PathVariable String cellphone) {
+    ResponseEntity<EmployeeResponse> getByCellphone(
+            @Parameter(description = "Employee cellphone", required = true, schema = @Schema(implementation = String.class), example = "+99 99 99999-9999")
+            @PathVariable String cellphone) {
 
         var employee = useCase.findByCellphone(cellphone);
 

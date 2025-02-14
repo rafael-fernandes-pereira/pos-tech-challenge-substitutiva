@@ -9,6 +9,7 @@ import com.github.rafaelfernandes.login.application.port.in.TokenUseCase;
 import com.github.rafaelfernandes.user.adapter.in.web.response.ResponseError;
 import com.github.rafaelfernandes.common.annotations.WebAdapter;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -53,7 +54,9 @@ public class LoginController {
             path = "",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    ResponseEntity<LoginTokenResponse> login(@RequestBody LoginRequest loginRequest) {
+    ResponseEntity<LoginTokenResponse> login(
+            @Parameter(description = "Login Request", required = true, schema = @Schema(implementation = LoginRequest.class))
+            @RequestBody LoginRequest loginRequest) {
 
         var login = new Login(loginRequest.cellphone(), loginRequest.password());
 
@@ -78,7 +81,9 @@ public class LoginController {
             path = "/validate",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    ResponseEntity<Boolean> validateToken(@RequestBody TokenValidateRequest request) {
+    ResponseEntity<Boolean> validateToken(
+            @Parameter(description = "Token Validate Request", required = true, schema = @Schema(implementation = TokenValidateRequest.class))
+            @RequestBody TokenValidateRequest request) {
 
         authenticateUseCase.isInvalid(request.token());
 

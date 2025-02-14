@@ -2,7 +2,7 @@ package com.github.rafaelfernandes.delivery.common.exception;
 
 public class ApartmentNotFoundException extends RuntimeException {
 
-    private static final String MESSAGE = "Resident not found";
+    private static final String MESSAGE = "Apartment not found";
 
     private static final Integer STATUS = 404;
 

@@ -1,7 +1,7 @@
 package com.github.rafaelfernandes.resident.adapter.in.web;
 
+import com.github.rafaelfernandes.resident.adapter.in.web.handler.ControllerExceptionHandler;
 import com.github.rafaelfernandes.resident.adapter.in.web.request.ResidentRequest;
-import com.github.rafaelfernandes.resident.adapter.in.web.response.ResidentIdResponse;
 import com.github.rafaelfernandes.resident.application.domain.model.Resident;
 import com.github.rafaelfernandes.resident.application.port.in.ResidentUseCase;
 import com.github.rafaelfernandes.resident.common.exception.ResidentApartmentExistsException;
@@ -218,8 +218,7 @@ class ResidentControllerTest {
         mockMvc.perform(delete("/api/resident/{id}", residentId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().string("Resident deleted successfully"));
+                ;
 
         verify(residentUseCase).delete(residentId);
     }
@@ -255,9 +254,7 @@ class ResidentControllerTest {
         mockMvc.perform(put("/api/resident/{id}", residentId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().string("Resident updated successfully"));
+                .andExpect(status().isOk());
 
         verify(residentUseCase).findById(residentId);
         verify(residentUseCase).update(any(Resident.ResidentId.class), any(Resident.class));

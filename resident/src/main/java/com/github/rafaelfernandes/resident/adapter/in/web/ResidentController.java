@@ -56,7 +56,9 @@ public class ResidentController {
             path = "",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    ResponseEntity<ResidentIdResponse> create(@Parameter @RequestBody ResidentRequest request){
+    ResponseEntity<ResidentIdResponse> create(
+            @Parameter(description = "Resident data", required = true, schema = @Schema(implementation = ResidentRequest.class))
+            @RequestBody ResidentRequest request){
         var residentModel = new Resident(
                 request.name(),
                 request.document(),
@@ -75,7 +77,7 @@ public class ResidentController {
     @ApiResponses(value = {
             @ApiResponse(description = "Success", responseCode = "200", content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = @Schema(implementation = ResidentResponse[].class)
+                    schema = @Schema(implementation = Page.class)
             )),
             @ApiResponse(description = "Business and Internal problems", responseCode = "500", content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
@@ -92,7 +94,9 @@ public class ResidentController {
             path = "",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    ResponseEntity<Page<ResidentResponse>> getAll(Pageable pageable) {
+    ResponseEntity<Page<ResidentResponse>> getAll(
+            @Parameter(description = "Pageable data", required = true, schema = @Schema(implementation = Pageable.class))
+            Pageable pageable) {
 
         var residents = useCase.getAll(pageable);
 
@@ -128,7 +132,9 @@ public class ResidentController {
             path = "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    ResponseEntity<ResidentResponse> getById(@PathVariable String id) {
+    ResponseEntity<ResidentResponse> getById(
+            @Parameter(description = "Resident id", required = true, schema = @Schema(implementation = UUID.class), example = "123e4567-e89b-12d3-a456-426614174000")
+            @PathVariable String id) {
 
         var resident = useCase.findById(id);
 
@@ -162,7 +168,9 @@ public class ResidentController {
             path = "/apartment/{apartment}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    ResponseEntity<ResidentResponse> getByApartment(@Parameter @PathVariable Integer apartment) {
+    ResponseEntity<ResidentResponse> getByApartment(
+            @Parameter(description = "Apartment", required = true, schema = @Schema(implementation = Integer.class), example = "101")
+            @PathVariable Integer apartment) {
 
         var resident = useCase.findByApartment(apartment);
 
@@ -173,10 +181,7 @@ public class ResidentController {
 
     @Operation(summary = "Delete Resident by ID")
     @ApiResponses(value = {
-            @ApiResponse(description = "Success", responseCode = "200", content = @Content(
-                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = @Schema(implementation = String.class)
-            )),
+            @ApiResponse(description = "Success", responseCode = "200"),
             @ApiResponse(description = "Business and Internal problems", responseCode = "500", content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                     schema = @Schema(implementation = ResponseError.class),
@@ -196,12 +201,57 @@ public class ResidentController {
             path = "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    ResponseEntity<String> deleteById(@PathVariable String id) {
+    ResponseEntity<Void> deleteById(
+            @Parameter(description = "Resident id", required = true, schema = @Schema(implementation = UUID.class), example = "123e4567-e89b-12d3-a456-426614174000")
+            @PathVariable String id) {
         useCase.delete(id);
-        return ResponseEntity.status(HttpStatus.OK).body("Resident deleted successfully");
+        return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "Update Resident by ID")
+    @ApiResponses(value = {
+            @ApiResponse(description = "Success", responseCode = "200"),
+            @ApiResponse(description = "Business and Internal problems", responseCode = "500", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = ResponseError.class),
+                    examples = @io.swagger.v3.oas.annotations.media.ExampleObject(value = "{\"message\":\"Business and Internal problems\",\"status\":500}")
+            )),
+            @ApiResponse(description = "Not found", responseCode = "404", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = ResponseError.class)
+            )),
+            @ApiResponse(description = "Authenticate error", responseCode = "401", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = ResponseError.class),
+                    examples = @io.swagger.v3.oas.annotations.media.ExampleObject(value = "{\"message\":\"Authenticate error\",\"status\":401}")
+            ))
+    })
+    @PutMapping(
+            path = "/{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    ResponseEntity<Void> updateById(
+            @Parameter(description = "Resident id", required = true, schema = @Schema(implementation = UUID.class), example = "123e4567-e89b-12d3-a456-426614174000")
+            @PathVariable String id,
+            @Parameter(description = "Resident data", required = true, schema = @Schema(implementation = ResidentRequest.class))
+            @RequestBody ResidentRequest request) {
+
+        var resident = useCase.findById(id);
+
+        var residentModel = new Resident(
+                request.name(),
+                request.document(),
+                request.cellphone(),
+                request.apartment()
+        );
+
+        useCase.update(resident.getResidentId(), residentModel);
+
+        return ResponseEntity.ok().build();
+    }
+
+
+    @Operation(summary = "Find Resident by Cellphone")
     @ApiResponses(value = {
             @ApiResponse(description = "Success", responseCode = "200", content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
@@ -222,53 +272,13 @@ public class ResidentController {
                     examples = @io.swagger.v3.oas.annotations.media.ExampleObject(value = "{\"message\":\"Authenticate error\",\"status\":401}")
             ))
     })
-    @PutMapping(
-            path = "/{id}",
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    ResponseEntity<String> updateById(@PathVariable String id, @RequestBody ResidentRequest request) {
-
-        var resident = useCase.findById(id);
-
-        var residentModel = new Resident(
-                request.name(),
-                request.document(),
-                request.cellphone(),
-                request.apartment()
-        );
-
-        useCase.update(resident.getResidentId(), residentModel);
-
-        return ResponseEntity.status(HttpStatus.OK).body("Resident updated successfully");
-    }
-
-
-    @Operation(summary = "Find Resident by Cellphone")
-    @ApiResponses(value = {
-            @ApiResponse(description = "Success", responseCode = "200", content = @Content(
-                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = @Schema(implementation = Resident.class)
-            )),
-            @ApiResponse(description = "Business and Internal problems", responseCode = "500", content = @Content(
-                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = @Schema(implementation = ResponseError.class),
-                    examples = @io.swagger.v3.oas.annotations.media.ExampleObject(value = "{\"message\":\"Business and Internal problems\",\"status\":500}")
-            )),
-            @ApiResponse(description = "Not found", responseCode = "404", content = @Content(
-                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = @Schema(implementation = ResponseError.class)
-            )),
-            @ApiResponse(description = "Authenticate error", responseCode = "401", content = @Content(
-                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = @Schema(implementation = ResponseError.class),
-                    examples = @io.swagger.v3.oas.annotations.media.ExampleObject(value = "{\"message\":\"Authenticate error\",\"status\":401}")
-            ))
-    })
     @GetMapping(
             path = "/cellphone/{cellphone}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    ResponseEntity<List<ResidentResponse>> getByCellphone(@Parameter @PathVariable String cellphone) {
+    ResponseEntity<List<ResidentResponse>> getByCellphone(
+            @Parameter(description = "Cellphone", required = true, schema = @Schema(implementation = String.class), example = "+99 99 99999-9999")
+            @PathVariable String cellphone) {
 
         var residents = useCase.findByCellphone(cellphone);
 

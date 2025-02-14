@@ -1,5 +1,6 @@
 package com.github.rafaelfernandes.employee.adapter.in.web;
 
+import com.github.rafaelfernandes.employee.adapter.in.web.handler.ControllerExceptionHandler;
 import com.github.rafaelfernandes.employee.adapter.in.web.response.ResponseError;
 import com.github.rafaelfernandes.employee.common.exception.EmployeeCellphoneExistsException;
 import com.github.rafaelfernandes.employee.common.exception.EmployeeNotFoundException;

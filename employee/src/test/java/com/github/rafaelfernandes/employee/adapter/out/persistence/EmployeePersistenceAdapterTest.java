@@ -1,5 +1,6 @@
 package com.github.rafaelfernandes.employee.adapter.out.persistence;
 
+import com.github.rafaelfernandes.employee.adapter.out.persistence.entity.EmployeeJpaEntity;
 import com.github.rafaelfernandes.employee.application.domain.model.Employee;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

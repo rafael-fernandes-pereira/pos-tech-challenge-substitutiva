@@ -8,6 +8,7 @@ import com.github.rafaelfernandes.delivery.adapter.in.web.response.DeliveryRespo
 import com.github.rafaelfernandes.delivery.adapter.in.web.response.ResponseError;
 import com.github.rafaelfernandes.delivery.application.port.in.DeliveryUseCase;
 import com.github.rafaelfernandes.delivery.common.annotations.WebAdapter;
+import com.github.rafaelfernandes.delivery.common.enums.DeliveryStatus;
 import com.github.rafaelfernandes.delivery.common.enums.NotificationStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @WebAdapter
 @RestController
@@ -39,6 +41,11 @@ public class DeliveryController {
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                     schema = @Schema(implementation = DeliveryIdResponse.class)
             )),
+            @ApiResponse(description = "Not Found", responseCode = "404", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = ResponseError.class),
+                    examples = @io.swagger.v3.oas.annotations.media.ExampleObject(value = "{\"message\":\"Apartment / Delivery / Employee not found\",\"status\":404}")
+            )),
             @ApiResponse(description = "Business and Internal problems", responseCode = "500", content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                     schema = @Schema(implementation = ResponseError.class),
@@ -54,7 +61,9 @@ public class DeliveryController {
             path = "/register",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    ResponseEntity<DeliveryIdResponse> registerDelivery(@Parameter @RequestBody DeliveryRequest request) {
+    ResponseEntity<DeliveryIdResponse> registerDelivery(
+            @Parameter(schema = @Schema(implementation = DeliveryRequest.class))
+            @RequestBody DeliveryRequest request) {
 
         var deliveryId = useCase.create(request.apartment(),
                 request.employeeCellphone(),
@@ -70,7 +79,12 @@ public class DeliveryController {
     @ApiResponses(value = {
             @ApiResponse(description = "Success", responseCode = "200", content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = @Schema(implementation = DeliveryResponse[].class)
+                    schema = @Schema(implementation = DeliveryResponse.class)
+            )),
+            @ApiResponse(description = "Not Found", responseCode = "404", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = ResponseError.class),
+                    examples = @io.swagger.v3.oas.annotations.media.ExampleObject(value = "{\"message\":\"Apartment / Delivery / Employee not found\",\"status\":404}")
             )),
             @ApiResponse(description = "Business and Internal problems", responseCode = "500", content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
@@ -88,8 +102,10 @@ public class DeliveryController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     ResponseEntity<List<DeliveryResponse>> getAllByApartment(
-            @Parameter(description = "Apartment number") @PathVariable Integer apartment,
-            @Parameter(description = "Delivery status") @RequestParam(required = false) String deliveryStatus
+            @Parameter(description = "Apartment number", required = true, example = "101")
+            @PathVariable Integer apartment,
+            @Parameter(description = "Delivery status", schema = @Schema(implementation = DeliveryStatus.class), example = "DELIVERED")
+            @RequestParam(required = false) String deliveryStatus
     ) {
 
         var deliveries = useCase.getAllByApartment(apartment, deliveryStatus);
@@ -128,6 +144,11 @@ public class DeliveryController {
     @ApiResponses(value = {
             @ApiResponse(description = "Success", responseCode = "200"
             ),
+            @ApiResponse(description = "Not Found", responseCode = "404", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = ResponseError.class),
+                    examples = @io.swagger.v3.oas.annotations.media.ExampleObject(value = "{\"message\":\"Apartment / Delivery / Employee not found\",\"status\":404}")
+            )),
             @ApiResponse(description = "Business and Internal problems", responseCode = "500", content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                     schema = @Schema(implementation = ResponseError.class),
@@ -144,7 +165,8 @@ public class DeliveryController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     ResponseEntity<Void> readNotification(
-            @Parameter(description = "Delivery id") @PathVariable String deliveryId
+            @Parameter(description = "Delivery id", required = true, schema = @Schema(implementation = UUID.class), example = "123e4567-e89b-12d3-a456-426614174000")
+            @PathVariable String deliveryId
     ) {
 
         this.updateNotificationStatus(deliveryId, NotificationStatus.READ.name());
@@ -157,6 +179,11 @@ public class DeliveryController {
     @ApiResponses(value = {
             @ApiResponse(description = "Success", responseCode = "200"
             ),
+            @ApiResponse(description = "Not Found", responseCode = "404", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = ResponseError.class),
+                    examples = @io.swagger.v3.oas.annotations.media.ExampleObject(value = "{\"message\":\"Apartment / Delivery / Employee not found\",\"status\":404}")
+            )),
             @ApiResponse(description = "Business and Internal problems", responseCode = "500", content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                     schema = @Schema(implementation = ResponseError.class),
@@ -173,7 +200,8 @@ public class DeliveryController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     ResponseEntity<Void> sentNotification(
-            @Parameter(description = "Delivery id") @PathVariable String deliveryId
+            @Parameter(description = "Delivery id", required = true, schema = @Schema(implementation = UUID.class), example = "123e4567-e89b-12d3-a456-426614174000")
+            @PathVariable String deliveryId
     ) {
 
         this.updateNotificationStatus(deliveryId, NotificationStatus.SENT.name());
@@ -186,6 +214,11 @@ public class DeliveryController {
     @ApiResponses(value = {
             @ApiResponse(description = "Success", responseCode = "200"
             ),
+            @ApiResponse(description = "Not Found", responseCode = "404", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = ResponseError.class),
+                    examples = @io.swagger.v3.oas.annotations.media.ExampleObject(value = "{\"message\":\"Apartment / Delivery / Employee not found\",\"status\":404}")
+            )),
             @ApiResponse(description = "Business and Internal problems", responseCode = "500", content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                     schema = @Schema(implementation = ResponseError.class),
@@ -202,8 +235,10 @@ public class DeliveryController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     ResponseEntity<Void> delivered(
-            @Parameter(description = "Delivery id") @PathVariable String deliveryId,
-            @Parameter(description = "Receiver name") @RequestBody DeliveredRequest request
+            @Parameter(description = "Delivery id", required = true, schema = @Schema(implementation = UUID.class), example = "123e4567-e89b-12d3-a456-426614174000")
+            @PathVariable String deliveryId,
+            @Parameter(description = "Receiver name", required = true, schema = @Schema(implementation = DeliveredRequest.class), example = "John Doe")
+            @RequestBody DeliveredRequest request
     ) {
 
         useCase.delivered(deliveryId, request.receiverName());
@@ -217,6 +252,11 @@ public class DeliveryController {
             @ApiResponse(description = "Success", responseCode = "200", content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                     schema = @Schema(implementation = DeliveryDataResponse.class)
+            )),
+            @ApiResponse(description = "Not Found", responseCode = "404", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = ResponseError.class),
+                    examples = @io.swagger.v3.oas.annotations.media.ExampleObject(value = "{\"message\":\"Apartment / Delivery / Employee not found\",\"status\":404}")
             )),
             @ApiResponse(description = "Business and Internal problems", responseCode = "500", content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
@@ -234,7 +274,8 @@ public class DeliveryController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     ResponseEntity<DeliveryDataResponse> getById(
-            @Parameter(description = "Delivery id") @PathVariable String deliveryId
+            @Parameter(description = "Delivery id", required = true, schema = @Schema(implementation = UUID.class), example = "123e4567-e89b-12d3-a456-426614174000")
+            @PathVariable String deliveryId
     ) {
 
         var delivery = useCase.getById(deliveryId);

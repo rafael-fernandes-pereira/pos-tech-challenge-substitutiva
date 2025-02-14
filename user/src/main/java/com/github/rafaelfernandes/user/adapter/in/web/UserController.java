@@ -37,6 +37,16 @@ public class UserController {
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                     schema = @Schema(implementation = UserCreatedResponse.class)
             )),
+            @ApiResponse(description = "Not found", responseCode = "404", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = ResponseError.class)
+            )),
+            @ApiResponse(description = "User with cellphone has already been exists", responseCode = "409", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = ResponseError.class),
+                    examples = @io.swagger.v3.oas.annotations.media.ExampleObject(value = "{\"message\":\"User with cellphone +99 99 99999-9999 already exists\",\"status\":409}")
+            )),
+
             @ApiResponse(description = "Business and Internal problems", responseCode = "500", content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                     schema = @Schema(implementation = ResponseError.class),
@@ -78,6 +88,12 @@ public class UserController {
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                     schema = @Schema(implementation = UserCreatedResponse.class)
             )),
+            @ApiResponse(description = "User with cellphone has already been exists", responseCode = "409", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = ResponseError.class),
+                    examples = @io.swagger.v3.oas.annotations.media.ExampleObject(value = "{\"message\":\"User with cellphone +99 99 99999-9999 already exists\",\"status\":409}")
+            )),
+
             @ApiResponse(description = "Business and Internal problems", responseCode = "500", content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                     schema = @Schema(implementation = ResponseError.class),

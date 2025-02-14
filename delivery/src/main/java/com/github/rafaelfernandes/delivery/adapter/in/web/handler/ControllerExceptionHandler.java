@@ -4,7 +4,6 @@ package com.github.rafaelfernandes.delivery.adapter.in.web.handler;
 import com.github.rafaelfernandes.delivery.adapter.in.web.response.ResponseError;
 import com.github.rafaelfernandes.delivery.common.exception.ApartmentNotFoundException;
 import com.github.rafaelfernandes.delivery.common.exception.DeliveryNotFoundException;
-import com.github.rafaelfernandes.delivery.common.exception.EmployeeCellphoneExistsException;
 import com.github.rafaelfernandes.delivery.common.exception.EmployeeNotFoundException;
 import jakarta.validation.ValidationException;
 import org.springframework.http.HttpStatus;
@@ -24,13 +23,6 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler({ApartmentNotFoundException.class})
     public ResponseEntity<ResponseError> errorValidation(ApartmentNotFoundException exception){
-        return ResponseEntity
-                .status(HttpStatus.valueOf(exception.getStatus()))
-                .body(new ResponseError(exception.getMessage(), exception.getStatus()));
-    }
-
-    @ExceptionHandler({EmployeeCellphoneExistsException.class})
-    public ResponseEntity<ResponseError> errorValidation(EmployeeCellphoneExistsException exception){
         return ResponseEntity
                 .status(HttpStatus.valueOf(exception.getStatus()))
                 .body(new ResponseError(exception.getMessage(), exception.getStatus()));

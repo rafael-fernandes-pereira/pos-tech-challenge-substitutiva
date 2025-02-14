@@ -1,5 +1,6 @@
 package com.github.rafaelfernandes.resident.adapter.out.persistence;
 
+import com.github.rafaelfernandes.resident.adapter.out.persistence.entity.ResidentJpaEntity;
 import com.github.rafaelfernandes.resident.application.domain.model.Resident;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

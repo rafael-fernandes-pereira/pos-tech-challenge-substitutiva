@@ -3,7 +3,6 @@ package com.github.rafaelfernandes.resident.adapter.in.web;
 import com.github.rafaelfernandes.resident.adapter.in.web.request.ResidentRequest;
 import com.github.rafaelfernandes.resident.adapter.in.web.response.ResidentIdResponse;
 import com.github.rafaelfernandes.resident.adapter.in.web.response.ResidentResponse;
-import com.github.rafaelfernandes.resident.adapter.out.persistence.ResidentJpaEntity;
 import com.github.rafaelfernandes.resident.adapter.out.persistence.ResidentRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +10,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

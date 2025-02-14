@@ -1,4 +1,4 @@
-package com.github.rafaelfernandes.resident.adapter.in.web;
+package com.github.rafaelfernandes.resident.adapter.in.web.handler;
 
 import com.github.rafaelfernandes.resident.adapter.in.web.response.ResponseError;
 import com.github.rafaelfernandes.resident.common.exception.ResidentApartmentExistsException;

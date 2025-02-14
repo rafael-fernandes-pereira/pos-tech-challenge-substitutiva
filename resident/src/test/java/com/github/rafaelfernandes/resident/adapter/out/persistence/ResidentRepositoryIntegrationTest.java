@@ -1,5 +1,6 @@
 package com.github.rafaelfernandes.resident.adapter.out.persistence;
 
+import com.github.rafaelfernandes.resident.adapter.out.persistence.entity.ResidentJpaEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

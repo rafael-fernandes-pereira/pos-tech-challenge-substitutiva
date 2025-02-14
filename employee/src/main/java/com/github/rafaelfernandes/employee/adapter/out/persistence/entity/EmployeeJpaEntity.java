@@ -1,4 +1,4 @@
-package com.github.rafaelfernandes.resident.adapter.out.persistence;
+package com.github.rafaelfernandes.employee.adapter.out.persistence.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,8 +15,8 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "tbl_resident")
-public class ResidentJpaEntity {
+@Table(name = "tbl_employee")
+public class EmployeeJpaEntity {
 
     @Id
     @GenericGenerator(name = "UUIDGenerator", strategy = "uuid2")
@@ -28,9 +28,5 @@ public class ResidentJpaEntity {
     private String document;
 
     private String cellphone;
-
-    private Integer apartment;
-
-
 
 }

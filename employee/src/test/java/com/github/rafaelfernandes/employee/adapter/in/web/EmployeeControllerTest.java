@@ -87,10 +87,10 @@ class EmployeeControllerTest {
     void deleteById_ShouldReturnSuccessMessage() {
         doNothing().when(useCase).delete("1");
 
-        ResponseEntity<String> response = controller.deleteById("1");
+        ResponseEntity<Void> response = controller.deleteById("1");
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).isEqualTo("Employee deleted successfully");
+
     }
 
     @Test
@@ -103,10 +103,10 @@ class EmployeeControllerTest {
         when(useCase.findById(id)).thenReturn(createdEmployee);
         doNothing().when(useCase).update(any(Employee.EmployeeId.class), any(Employee.class));
 
-        ResponseEntity<String> response = controller.updateById(id, request);
+        ResponseEntity<Void> response = controller.updateById(id, request);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).isEqualTo("Employee updated successfully");
+
     }
 
     @Test

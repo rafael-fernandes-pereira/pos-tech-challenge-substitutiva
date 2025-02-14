@@ -1,6 +1,13 @@
 package com.github.rafaelfernandes.employee.adapter.in.web.response;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import org.springframework.http.HttpStatusCode;
+
 public record ResponseError(
-        String message, Integer status
+        @Schema(example = "Not Found")
+        String message,
+
+        @Schema(implementation = HttpStatusCode.class, example = "404")
+        Integer status
 ) {
 }
