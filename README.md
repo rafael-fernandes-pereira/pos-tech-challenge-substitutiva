@@ -113,7 +113,7 @@ graph TD
     DB_UserAPI[(user-db)]
     DB_ResidentAPI[(resident-db)]
     DB_EmployeeAPI[(employee-db)]
-    DB_DeliveryAPI[(payment-db)]
+    DB_DeliveryAPI[(delivery-db)]
     RabbitMQ@{ shape: das, label: "RabbitMQ" }
     
 
@@ -262,6 +262,157 @@ graph LR
 
 ### 2 - Gerar token
 
+A geração de token é feita com celular cadastrado e a senha gerada no endpoint ```api/login```.
+
+```bash
+curl -X 'POST' \
+  'http://localhost:8080/api/login' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "cellphone": "+04 90 15059-6528",
+  "password": "!_v7K0%)Dc"
+}'
+```
+
+A saída é um token JWT:
+
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUkVTSURFTlQiLCJsb2dpbklkIjoiNjBlYWIzMWUtYWIxMi00OTA3LTljNjYtY2NkNmJhYTEzMzAwIiwic3ViIjoiKzA0IDkwIDE1MDU5LTY1MjgiLCJpYXQiOjE3Mzk1MDM1NDYsImV4cCI6MTczOTUwMzY2Nn0.ufBZj_Om5Ccr_b64-roo6hpw4QFpL_2ijn_H8FTusfo"
+}
+```
+
+O fluxo é feito somente na API de User e Login, pois o usuário é registrado na base de dados desse serviço.
+
+```mermaid
+graph LR
+    
+    Eureka[Eureka]
+    Gateway[Gateway]
+    
+    UserAPI[User & Login API]
+
+    
+    DB_UserAPI[(user-db)]
+    
+    
+
+    Gateway --- Eureka
+    Eureka --- UserAPI ---|Utiliza| DB_UserAPI
+    
+    
+```
+
+### 3 - Fluxo de entregas
+
+A entrega é registrada no endpoint ```/api/delivery/register```
+
+```bash
+curl -X 'POST' \
+  'http://localhost:8080/api/delivery/register' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -H 'Authentication: Bearer TOKEN' \
+  -d '{
+  "apartment": 101,
+  "employeeCellphone": "+99 99 99999-9999",
+  "nameDestination": "Rafael Fernandes",
+  "packageDescription": "Entrega de pacote com formato redondo"
+}'
+```
+
+A saída é apenas o HTTP Status 200 - OK
+
+1. Ao chegar uma encomenda, é registrado para um apartamento e o destinatário
+2. É verificado se o apartamento está registrado no sistema para algum morador.
+3. Caso esteja, o registro é feito.
+4. É verificado no serviço Resident API qual o celular para envio do sms.
+5. Além disso, é registrado em uma fila uma notificação para enviar via SMS
+6. O serviço Notification Broker consome a fila de notificação e simula o envio de SMS
+    1. Nesse projeto não foi implementado nenhum envio efetivo, apenas exibição em log no terminal
+7. Após o envio, o status da notificação é atualizado.
+
+
+```mermaid
+graph LR
+    
+    Eureka[Eureka]
+    Gateway[Gateway]
+    
+    ResidentAPI[Resident API]
+    DeliveryAPI[Delivery API]
+    NotificationBroker[Notification
+    Broker]
+    
+    DB_ResidentAPI[(resident-db)]
+    DB_DeliveryAPI[(delivery-db)]
+    RabbitMQ@{ shape: das, label: "RabbitMQ" }
+    
+    
+
+    Gateway --- Eureka
+    Eureka --- DeliveryAPI ---|Utiliza| DB_DeliveryAPI
+    DeliveryAPI ---|Consome| ResidentAPI--- |Utiliza|DB_ResidentAPI
+    DeliveryAPI --- |Produz|RabbitMQ
+    NotificationBroker ---| Consome|RabbitMQ
+    NotificationBroker --- SMS
+    NotificationBroker ---|Atualiza o <br> status da <br>notificação| DeliveryAPI
+```
+
+Abaixo a simulaççao do SMS:
+
+![sms](sms.png "SMS")
+
+### 4 - Morador recebeu SMS
+
+O morador pode informar na API se já leu a notificação via SMS através do endpoint ```api/delivery/{id_do_delivery}/notification/read```
+
+```bash
+curl -X 'PUT' \
+  'http://localhost:8080/api/delivery/123e4567-e89b-12d3-a456-426614174000/notification/read' \
+  -H 'accept: */*' \
+  -H 'Authentication: Bearer TOKEN'
+  
+```
+A saída é apenas o HTTP Status 200 - OK
+
+### 5 - Registrar retirada do pacote
+
+No final, o porteiro faz o registro da retirada do pacote pelo endpoint ```api/delivery/{id_do_delivery}/delivered```
+
+```bash
+curl -X 'PUT' \
+  'http://localhost:8080/api/delivery/123e4567-e89b-12d3-a456-426614174000/delivered' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -H 'Authentication: Bearer TOKEN' \
+  -d '{
+  "receiverName": "Rafael Fernandes"
+}'
+```
+
+O fluxo é simples: usa a API de Delivery e registra que foi retirado.
+
+```mermaid
+graph LR
+    
+    Eureka[Eureka]
+    Gateway[Gateway]
+    
+    DeliveryAPI[Delivery API]
+    
+    DB_DeliveryAPI[(delivery-db)]
+
+    
+    
+
+    Gateway --- Eureka
+    Eureka --- DeliveryAPI ---|Utiliza| DB_DeliveryAPI
+
+```
+
+
 ## Controle de acesso
 
 O controle de acesso das API's são feitas através do gateway, ou seja, nenhuma API tem validação de roles, ficando tudo concentrado no gateway.
@@ -299,7 +450,3 @@ gateway/
         └── resources
                 └── application.yml
 ```
-
-# Dúvidas?
-
-Poste aqui sua issue ou me mande um email: rafael.ferper@gmail.com
